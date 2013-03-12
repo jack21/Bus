@@ -1,0 +1,275 @@
+unit frmFix;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, Grids, Wwdbigrd, Wwdbgrid, wwSpeedButton, wwDBNavigator,
+  wwclearpanel, ExtCtrls, StdCtrls, Buttons, wwdblook, DB, ADODB, Mask,
+  DBCtrls, ComCtrls, wwdbdatetimepicker, iniFiles, DateUtils, RpRave,
+  RpBase, RpSystem, RpDefine, RpCon, RpConDS;
+
+type
+  TFixForm = class(TForm)
+    Panel2: TPanel;
+    Panel3: TPanel;
+    FixGrid: TwwDBGrid;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label1: TLabel;
+    BusLookup: TwwDBLookupCombo;
+    OKBtn: TBitBtn;
+    FixQuery: TADOQuery;
+    FixQueryMDate: TDateTimeField;
+    FixDS: TDataSource;
+    YearEdit: TEdit;
+    FixQueryMDate_Show: TWideStringField;
+    FixQueryNo: TAutoIncField;
+    FixQueryBusNum: TWideStringField;
+    FixQueryFactory: TWideStringField;
+    FixQueryItem: TWideStringField;
+    FixQueryMoney: TIntegerField;
+    FixQueryNote: TWideStringField;
+    Label5: TLabel;
+    FactoryEdit: TDBEdit;
+    Label6: TLabel;
+    ItemEdit: TDBEdit;
+    Label7: TLabel;
+    MoneyEdit: TDBEdit;
+    Label8: TLabel;
+    NoteEdit: TDBEdit;
+    Label4: TLabel;
+    PostBtn: TBitBtn;
+    wwDBDateTimePicker1: TwwDBDateTimePicker;
+    PrintBtn: TBitBtn;
+    FixConn: TRvDataSetConnection;
+    RvSystem1: TRvSystem;
+    RvProject1: TRvProject;
+    FixQueryMileage: TWideStringField;
+    FixQueryVisa: TWideStringField;
+    Panel4: TPanel;
+    FixMasterQuery: TADOQuery;
+    FixMasterDS: TDataSource;
+    FixMasterQueryYear: TWideStringField;
+    FixMasterQueryBusNum: TWideStringField;
+    FixMasterQueryOwnerName: TWideStringField;
+    FixMasterQueryOwnerAddress: TWideStringField;
+    FixMasterQueryOwnerPhone: TWideStringField;
+    FixMasterQueryUserName: TWideStringField;
+    FixMasterQueryUserAddress: TWideStringField;
+    FixMasterQueryUserPhone: TWideStringField;
+    FixMasterQueryNumber: TWideStringField;
+    FixMasterQueryEngineNumber: TWideStringField;
+    FixMasterQueryInsurance1Data: TWideStringField;
+    FixMasterQueryInsurance1Category: TWideStringField;
+    FixMasterQueryInsurance1Number: TWideStringField;
+    FixMasterQueryInsurance1During: TWideStringField;
+    FixMasterQueryInsurance2Data: TWideStringField;
+    FixMasterQueryInsurance2Category: TWideStringField;
+    FixMasterQueryInsurance2Number: TWideStringField;
+    FixMasterQueryInsurance2During: TWideStringField;
+    Label9: TLabel;
+    DBEdit1: TDBEdit;
+    Label10: TLabel;
+    DBEdit2: TDBEdit;
+    Label11: TLabel;
+    DBEdit3: TDBEdit;
+    Label12: TLabel;
+    DBEdit4: TDBEdit;
+    Label13: TLabel;
+    DBEdit5: TDBEdit;
+    Label14: TLabel;
+    DBEdit6: TDBEdit;
+    Label15: TLabel;
+    DBEdit7: TDBEdit;
+    Label16: TLabel;
+    DBEdit8: TDBEdit;
+    Label17: TLabel;
+    DBEdit9: TDBEdit;
+    Label18: TLabel;
+    DBEdit10: TDBEdit;
+    Label19: TLabel;
+    DBEdit11: TDBEdit;
+    Label20: TLabel;
+    DBEdit12: TDBEdit;
+    Label21: TLabel;
+    DBEdit13: TDBEdit;
+    Label22: TLabel;
+    DBEdit14: TDBEdit;
+    Label23: TLabel;
+    DBEdit15: TDBEdit;
+    Label24: TLabel;
+    DBEdit16: TDBEdit;
+    Label25: TLabel;
+    DBEdit17: TDBEdit;
+    Label26: TLabel;
+    DBEdit18: TDBEdit;
+    FixMasterConn: TRvDataSetConnection;
+    Label27: TLabel;
+    DBEdit19: TDBEdit;
+    Panel5: TPanel;
+    InsertBtn: TBitBtn;
+    DelBtn: TBitBtn;
+    Label28: TLabel;
+    DBEdit20: TDBEdit;
+    procedure OKBtnClick(Sender: TObject);
+    procedure FixQueryCalcFields(DataSet: TDataSet);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormCreate(Sender: TObject);
+    procedure FixQueryAfterDelete(DataSet: TDataSet);
+    procedure FormShow(Sender: TObject);
+    procedure PostBtnClick(Sender: TObject);
+    procedure PrintBtnClick(Sender: TObject);
+    procedure BusLookupKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure InsertBtnClick(Sender: TObject);
+    procedure DelBtnClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FixForm: TFixForm;
+
+implementation
+
+uses frmDM, frmDay;
+
+{$R *.dfm}
+
+procedure TFixForm.OKBtnClick(Sender: TObject);
+begin
+  // 年度防呆
+  try
+    StrToInt(YearEdit.Text);
+  except
+    MessageDlg('年度輸入錯誤！', mtWarning, [mbOK], 0);
+  end;
+
+  // 車號防呆
+  if BusLookup.Text = '' then
+    exit;
+
+  // 修車主要資料
+  FixMasterQuery.Close;
+  FixMasterQuery.Parameters.ParamValues['Years'] := YearEdit.Text;
+  FixMasterQuery.Parameters.ParamValues['Num'] := BusLookup.Text;
+  FixMasterQuery.Open;
+
+  if FixMasterQuery.IsEmpty then
+  begin
+    FixMasterQuery.Append;
+    FixMasterQuery.FieldValues['BusNum'] := BusLookup.Text;
+    FixMasterQuery.FieldValues['Year'] := YearEdit.Text;
+  end;
+
+  // 修車明細列表
+  FixQuery.Close;
+  FixQuery.Parameters.ParamValues['Years'] := YearEdit.Text;
+  FixQuery.Parameters.ParamValues['Num'] := BusLookup.Text;
+  FixQuery.Open;
+
+  if FixQuery.IsEmpty then
+    FixQuery.Append;
+end;
+
+procedure TFixForm.FixQueryCalcFields(DataSet: TDataSet);
+begin
+  DataSet.FieldValues['MDate_Show'] := FormatDateTime('ee/mm/dd', DataSet.FieldByName('MDate').AsDateTime);
+end;
+
+procedure TFixForm.FormClose(Sender: TObject; var Action: TCloseAction);
+var
+  iniFile: TIniFile;
+begin
+  iniFile := TIniFile.Create(DM.AppPath + 'Config.ini');
+  iniFile.WriteInteger('FixForm', 'FormTop', FixForm.Top);
+  iniFile.WriteInteger('FixForm', 'FormLeft', FixForm.Left);
+  iniFile.Free;
+
+  FixForm := nil;
+  Action := caFree;
+end;
+
+procedure TFixForm.FormCreate(Sender: TObject);
+var
+  iniFile: TIniFile;
+begin
+  iniFile := TIniFile.Create(DM.AppPath + 'Config.ini');
+  FixForm.Top := iniFile.ReadInteger('FixForm', 'FormTop', 0);
+  FixForm.Left := iniFile.ReadInteger('FixForm', 'FormLeft', 0);
+  iniFile.Free;
+
+  RvProject1.ProjectFile := DM.AppPath + 'Fix.rav';
+end;
+
+procedure TFixForm.FixQueryAfterDelete(DataSet: TDataSet);
+begin
+  if DataSet.IsEmpty then
+    DataSet.Append;
+end;
+
+procedure TFixForm.FormShow(Sender: TObject);
+begin
+  YearEdit.Text := IntToStr(YearOf(Now));
+  Width := 733;
+
+  if DM.EditEnable then
+  begin
+    // 保險資料
+    Panel4.Enabled := true;
+
+    // 保養明細
+    Panel5.Enabled := true;
+    Panel2.Enabled := true;
+  end;
+end;
+
+procedure TFixForm.PostBtnClick(Sender: TObject);
+begin
+  FixMasterQuery.Edit;
+  FixMasterQuery.Post;
+
+  FixQuery.Edit;
+  FixQuery.FieldValues['BusNum'] := BusLookup.Text;
+  FixQuery.Post;
+  FixQuery.Close;
+  FixQuery.Open;
+end;
+
+procedure TFixForm.PrintBtnClick(Sender: TObject);
+var
+  sTemp: String;
+begin
+  RvProject1.ProjectFile := DM.AppPath + 'Fix.rav';
+
+  sTemp := '日期:' + IntToStr(StrToInt(YearEdit.Text)-1911) + '年度';
+  sTemp := sTemp + '　　　　　　　　　　　　　　　　　　　';
+  sTemp := sTemp + '車號:' + BusLookup.LookupTable.FieldByName('BusNumber').AsString;
+  sTemp := sTemp + '　駕駛:' + BusLookup.LookupTable.FieldByName('Driver').AsString;
+  RvProject1.SetParam('Title',sTemp);
+
+  RvProject1.Execute;
+end;
+
+procedure TFixForm.BusLookupKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key = 40 then
+    (Sender As TwwDBLookupCombo).DropDown;
+end;
+
+procedure TFixForm.InsertBtnClick(Sender: TObject);
+begin
+  FixQuery.Append;
+end;
+
+procedure TFixForm.DelBtnClick(Sender: TObject);
+begin
+  if MessageDlg('是否刪除此筆資料？', mtWarning, [mbYes,mbNo], 0) = mrYes then
+    FixQuery.Delete;
+end;
+
+end.

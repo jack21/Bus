@@ -1,0 +1,879 @@
+object MonthRepForm: TMonthRepForm
+  Left = -42
+  Top = 148
+  Width = 863
+  Height = 509
+  Caption = #26376#22577#34920
+  Color = clBtnFace
+  Font.Charset = CHINESEBIG5_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = #26032#32048#26126#39636
+  Font.Style = []
+  FormStyle = fsMDIChild
+  OldCreateOrder = False
+  Position = poDefault
+  Visible = True
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 12
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 855
+    Height = 57
+    Align = alTop
+    BevelInner = bvRaised
+    BevelOuter = bvLowered
+    TabOrder = 0
+    object Label1: TLabel
+      Left = 24
+      Top = 24
+      Width = 36
+      Height = 12
+      Caption = #36554#34399#65306
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label2: TLabel
+      Left = 200
+      Top = 24
+      Width = 36
+      Height = 12
+      Caption = #26178#38291#65306
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label3: TLabel
+      Left = 304
+      Top = 24
+      Width = 12
+      Height = 12
+      Caption = #24180
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label4: TLabel
+      Left = 392
+      Top = 24
+      Width = 12
+      Height = 12
+      Caption = #26376
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      ParentFont = False
+    end
+    object BusLookup: TwwDBLookupCombo
+      Left = 64
+      Top = 20
+      Width = 89
+      Height = 20
+      AutoSize = False
+      Ctl3D = True
+      DropDownAlignment = taLeftJustify
+      Selected.Strings = (
+        'BusNumber'#9'8'#9#36554#34399#9'F'
+        'Driver'#9'10'#9#39381#39387#20154#9'F')
+      LookupTable = DM.BusTbl
+      LookupField = 'BusNumber'
+      Options = [loColLines, loRowLines, loTitles]
+      ParentCtl3D = False
+      TabOrder = 0
+      AutoDropDown = True
+      ShowButton = True
+      PreciseEditRegion = False
+      AllowClearKey = False
+    end
+    object YearEdit: TEdit
+      Left = 240
+      Top = 20
+      Width = 57
+      Height = 18
+      Ctl3D = False
+      ParentCtl3D = False
+      TabOrder = 1
+    end
+    object MonthBox: TComboBox
+      Left = 320
+      Top = 20
+      Width = 65
+      Height = 20
+      Style = csDropDownList
+      Ctl3D = True
+      ItemHeight = 12
+      ParentCtl3D = False
+      TabOrder = 2
+      Items.Strings = (
+        '1'
+        '2'
+        '3'
+        '4'
+        '5'
+        '6'
+        '7'
+        '8'
+        '9'
+        '10'
+        '11'
+        '12')
+    end
+    object OKBtn: TBitBtn
+      Left = 432
+      Top = 18
+      Width = 75
+      Height = 25
+      Caption = #30906#23450
+      Default = True
+      TabOrder = 3
+      OnClick = OKBtnClick
+    end
+  end
+  object Panel2: TPanel
+    Left = 0
+    Top = 57
+    Width = 855
+    Height = 303
+    Align = alClient
+    BevelInner = bvRaised
+    BevelOuter = bvLowered
+    TabOrder = 1
+    object MonthGrid: TwwDBGrid
+      Left = 2
+      Top = 2
+      Width = 851
+      Height = 299
+      DittoAttributes.ShortCutDittoField = 0
+      DittoAttributes.ShortCutDittoRecord = 0
+      DittoAttributes.Options = []
+      DisableThemesInTitle = False
+      Selected.Strings = (
+        'ShortTravelDate'#9'10'#9#26085#26399#9#9
+        'Custom'#9'25'#9#23458#25142#21517#31281#9#9
+        'Travel'#9'30'#9#34892#31243#9#9
+        'Turnover'#9'10'#9#36554#36039#9#9
+        'TravelExp'#9'5'#9#36335#36027#9#9
+        'OilExp'#9'6'#9#27833#37329#9#9
+        'Tips'#9'5'#9#20132#26381#36027#9#9
+        'FirstIncome'#9'10'#9#31532#19968#27425#25910#27454#9#9
+        'ShortFirstIncomeDate'#9'10'#9#25910#27454#26085#26399#9#9
+        'SecondIncome'#9'10'#9#31532#20108#27425#25910#27454#9#9
+        'ShortSecondIncomeDate'#9'10'#9#25910#27454#26085#26399#9#9
+        'NoIncome'#9'10'#9#26410#25910#9#9
+        'Note'#9'20'#9#20633#35387#9'F'#9)
+      IniAttributes.Delimiter = ';;'
+      TitleColor = clBtnFace
+      FixedCols = 0
+      ShowHorzScrollBar = True
+      Align = alClient
+      DataSource = MonthDS
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgWordWrap]
+      ParentFont = False
+      TabOrder = 0
+      TitleAlignment = taCenter
+      TitleFont.Charset = CHINESEBIG5_CHARSET
+      TitleFont.Color = clBlue
+      TitleFont.Height = -12
+      TitleFont.Name = #26032#32048#26126#39636
+      TitleFont.Style = []
+      TitleLines = 1
+      TitleButtons = False
+    end
+  end
+  object Panel3: TPanel
+    Left = 0
+    Top = 422
+    Width = 855
+    Height = 53
+    Align = alBottom
+    BevelInner = bvRaised
+    BevelOuter = bvLowered
+    TabOrder = 2
+    object MonthRepBtn: TBitBtn
+      Left = 712
+      Top = 16
+      Width = 99
+      Height = 25
+      Caption = #26376#22577#34920'(&P)'
+      TabOrder = 0
+      OnClick = MonthRepBtnClick
+    end
+    object PayRepBtn: TBitBtn
+      Left = 592
+      Top = 16
+      Width = 99
+      Height = 25
+      Caption = #25033#20184#24115#27454#26126#32048'(&R)'
+      TabOrder = 1
+      OnClick = PayRepBtnClick
+    end
+  end
+  object Panel4: TPanel
+    Left = 0
+    Top = 360
+    Width = 855
+    Height = 62
+    Align = alBottom
+    BevelInner = bvRaised
+    BevelOuter = bvLowered
+    TabOrder = 3
+    object wwDBGrid1: TwwDBGrid
+      Left = 2
+      Top = 2
+      Width = 851
+      Height = 58
+      DittoAttributes.ShortCutDittoField = 0
+      DittoAttributes.ShortCutDittoRecord = 0
+      DittoAttributes.Options = []
+      DisableThemesInTitle = False
+      Selected.Strings = (
+        'MemberFee'#9'8'#9#34892#36027#9#9
+        'Tax'#9'8'#9#31237#37329#9#9
+        'DriverSalary'#9'8'#9#21496#27231#34218#36039#9#9
+        'ServiceSalary'#9'8'#9#26381#21209#21729#34218#36039#9#9
+        'UnionFee'#9'8'#9#20844#26371#26371#36027#9#9
+        'LicenceTax'#9'8'#9#29123#26009#21450#29260#29031#31237#9#9
+        'ParkFee'#9'8'#9#36942#36335#21450#20572#36554#36027#9#9
+        'FixFee'#9'8'#9#20462#29702#36027#9#9
+        'Incidental'#9'8'#9#38620#38917#9#9
+        'Cellphone'#9'8'#9#34892#21205#38651#35441#9#9
+        'Insurance'#9'8'#9#21214#20581#20445#9#9
+        'Reserve'#9'8'#9#31449#36027#27927#36554#9#9
+        'Reserve1'#9'8'#9#20445#30041#19968#9#9
+        'Reserve2'#9'8'#9#20445#30041#20108#9#9
+        'Reserve3'#9'8'#9#20445#30041#19977#9#9
+        'Reserve4'#9'8'#9#20445#30041#22235#9#9)
+      IniAttributes.Delimiter = ';;'
+      TitleColor = clBtnFace
+      FixedCols = 0
+      ShowHorzScrollBar = True
+      ShowVertScrollBar = False
+      Align = alClient
+      Ctl3D = False
+      DataSource = ExpDS
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgWordWrap]
+      ParentCtl3D = False
+      ParentFont = False
+      TabOrder = 0
+      TitleAlignment = taCenter
+      TitleFont.Charset = CHINESEBIG5_CHARSET
+      TitleFont.Color = clBlue
+      TitleFont.Height = -12
+      TitleFont.Name = #26032#32048#26126#39636
+      TitleFont.Style = []
+      TitleLines = 1
+      TitleButtons = False
+    end
+  end
+  object MonthQuery: TADOQuery
+    CacheSize = 1000
+    Connection = DM.DBConn
+    CursorType = ctStatic
+    OnCalcFields = MonthQueryCalcFields
+    Parameters = <
+      item
+        Name = 'BusNum'
+        Attributes = [paNullable]
+        DataType = ftWideString
+        NumericScale = 255
+        Precision = 255
+        Size = 510
+        Value = 'Y3-891'
+      end
+      item
+        Name = 'Years'
+        Attributes = [paNullable]
+        DataType = ftWideString
+        NumericScale = 255
+        Precision = 255
+        Size = 510
+        Value = '4'
+      end
+      item
+        Name = 'Months'
+        Attributes = [paNullable]
+        DataType = ftWideString
+        NumericScale = 255
+        Precision = 255
+        Size = 510
+        Value = '26'
+      end>
+    SQL.Strings = (
+      'Select *'
+      'From Travel'
+      'Where BusNumber = :BusNum and'
+      '      Year(TravelDate) = :Years and'
+      '      Month(TravelDate) = :Months'
+      'Order By TravelDate'
+      ' ')
+    Left = 584
+    Top = 8
+    object MonthQueryShortTravelDate: TWideStringField
+      DisplayLabel = #26085#26399
+      DisplayWidth = 10
+      FieldKind = fkCalculated
+      FieldName = 'ShortTravelDate'
+      Calculated = True
+    end
+    object MonthQueryCustom: TWideStringField
+      Alignment = taCenter
+      DisplayLabel = #23458#25142#21517#31281
+      DisplayWidth = 25
+      FieldName = 'Custom'
+      Size = 30
+    end
+    object MonthQueryTravel: TWideStringField
+      DisplayLabel = #34892#31243
+      DisplayWidth = 30
+      FieldName = 'Travel'
+      Size = 50
+    end
+    object MonthQueryTurnover: TIntegerField
+      DisplayLabel = #36554#36039
+      DisplayWidth = 10
+      FieldName = 'Turnover'
+    end
+    object MonthQueryTravelExp: TSmallintField
+      DisplayLabel = #36335#36027
+      DisplayWidth = 5
+      FieldName = 'TravelExp'
+    end
+    object MonthQueryOilExp: TSmallintField
+      DisplayLabel = #27833#37329
+      DisplayWidth = 6
+      FieldName = 'OilExp'
+    end
+    object MonthQueryTips: TIntegerField
+      DisplayLabel = #20132#26381#36027
+      DisplayWidth = 5
+      FieldName = 'Tips'
+    end
+    object MonthQueryFirstIncome: TIntegerField
+      DisplayLabel = #31532#19968#27425#25910#27454
+      DisplayWidth = 10
+      FieldName = 'FirstIncome'
+    end
+    object MonthQueryShortFirstIncomeDate: TWideStringField
+      DisplayLabel = #25910#27454#26085#26399
+      DisplayWidth = 10
+      FieldKind = fkCalculated
+      FieldName = 'ShortFirstIncomeDate'
+      Size = 0
+      Calculated = True
+    end
+    object MonthQuerySecondIncome: TIntegerField
+      DisplayLabel = #31532#20108#27425#25910#27454
+      DisplayWidth = 10
+      FieldName = 'SecondIncome'
+    end
+    object MonthQueryShortSecondIncomeDate: TWideStringField
+      DisplayLabel = #25910#27454#26085#26399
+      DisplayWidth = 10
+      FieldKind = fkCalculated
+      FieldName = 'ShortSecondIncomeDate'
+      Size = 0
+      Calculated = True
+    end
+    object MonthQueryNoIncome: TIntegerField
+      DisplayLabel = #26410#25910
+      DisplayWidth = 10
+      FieldKind = fkCalculated
+      FieldName = 'NoIncome'
+      Calculated = True
+    end
+    object MonthQueryNote: TWideStringField
+      DisplayLabel = #20633#35387
+      DisplayWidth = 20
+      FieldName = 'Note'
+      Size = 50
+    end
+    object MonthQueryGroup: TWideStringField
+      DisplayLabel = #22296#34399
+      DisplayWidth = 10
+      FieldName = 'Groups'
+      Visible = False
+      Size = 10
+    end
+    object MonthQuerySecondIncomeDate: TDateTimeField
+      DisplayLabel = #25910#27454#26085#26399
+      DisplayWidth = 18
+      FieldName = 'SecondIncomeDate'
+      Visible = False
+    end
+    object MonthQueryFirstIncomeDate: TDateTimeField
+      DisplayLabel = #25910#27454#26085#26399
+      DisplayWidth = 18
+      FieldName = 'FirstIncomeDate'
+      Visible = False
+    end
+    object MonthQueryTravelDate: TDateTimeField
+      DisplayLabel = #26085#26399
+      DisplayWidth = 18
+      FieldName = 'TravelDate'
+      Visible = False
+    end
+    object MonthQueryNo: TAutoIncField
+      Alignment = taCenter
+      DisplayWidth = 10
+      FieldName = 'No'
+      ReadOnly = True
+      Visible = False
+    end
+    object MonthQueryBusNumber: TWideStringField
+      DisplayWidth = 8
+      FieldName = 'BusNumber'
+      Visible = False
+      Size = 8
+    end
+    object MonthQueryTips2: TIntegerField
+      DisplayWidth = 10
+      FieldName = 'Tips2'
+      Visible = False
+    end
+    object MonthQueryTotalIncome: TWideStringField
+      DisplayWidth = 6
+      FieldKind = fkCalculated
+      FieldName = 'TotalIncome'
+      Visible = False
+      Size = 6
+      Calculated = True
+    end
+    object MonthQueryTurnover2: TIntegerField
+      DisplayWidth = 10
+      FieldName = 'Turnover2'
+      Visible = False
+    end
+    object MonthQueryNote2: TWideStringField
+      DisplayWidth = 50
+      FieldName = 'Note2'
+      Visible = False
+      Size = 50
+    end
+    object MonthQueryStartTime: TWideStringField
+      DisplayWidth = 5
+      FieldName = 'StartTime'
+      Visible = False
+      Size = 5
+    end
+    object MonthQueryEndTime: TWideStringField
+      DisplayWidth = 5
+      FieldName = 'EndTime'
+      Visible = False
+      Size = 5
+    end
+  end
+  object MonthDS: TDataSource
+    DataSet = MonthQuery
+    Left = 584
+    Top = 40
+  end
+  object RvProject1: TRvProject
+    Engine = RvSystem1
+    ProjectFile = 'Month.rav'
+    Left = 40
+    Top = 432
+  end
+  object RvSystem1: TRvSystem
+    TitleSetup = #21015#21360#36984#38917
+    TitleStatus = #22577#34920#29376#24907
+    TitlePreview = #38928#35261#22577#34920
+    SystemFiler.StatusFormat = 'Generating page %p'
+    SystemPreview.FormState = wsMaximized
+    SystemPreview.ZoomFactor = 100.000000000000000000
+    SystemPrinter.ScaleX = 100.000000000000000000
+    SystemPrinter.ScaleY = 100.000000000000000000
+    SystemPrinter.StatusFormat = 'Printing page %p'
+    SystemPrinter.Title = 'ReportPrinter Report'
+    SystemPrinter.Units = unCM
+    SystemPrinter.UnitsFactor = 2.540000000000000000
+    Left = 80
+    Top = 432
+  end
+  object RvDataSetConnection1: TRvDataSetConnection
+    RuntimeVisibility = rtDeveloper
+    DataSet = MonthQuery
+    Left = 120
+    Top = 432
+  end
+  object ExpDS: TDataSource
+    DataSet = ExpQuery
+    Left = 544
+    Top = 40
+  end
+  object ExpQuery: TADOQuery
+    CacheSize = 1000
+    Connection = DM.DBConn
+    CursorType = ctStatic
+    Parameters = <
+      item
+        Name = 'myYear'
+        Attributes = [paNullable]
+        DataType = ftWideString
+        NumericScale = 255
+        Precision = 255
+        Size = 510
+        Value = Null
+      end
+      item
+        Name = 'myMonth'
+        Attributes = [paNullable]
+        DataType = ftWideString
+        NumericScale = 255
+        Precision = 255
+        Size = 510
+        Value = Null
+      end
+      item
+        Name = 'BusNum'
+        Attributes = [paNullable]
+        DataType = ftWideString
+        NumericScale = 255
+        Precision = 255
+        Size = 510
+        Value = Null
+      end>
+    SQL.Strings = (
+      'Select *'
+      'From Exp'
+      'Where Years=myYear and Months=myMonth and BusNumber=BusNum'
+      'Order By BusNumber')
+    Left = 544
+    Top = 8
+    object ExpQueryMemberFee: TIntegerField
+      DisplayLabel = #34892#36027
+      DisplayWidth = 8
+      FieldName = 'MemberFee'
+    end
+    object ExpQueryTax: TIntegerField
+      DisplayLabel = #31237#37329
+      DisplayWidth = 8
+      FieldName = 'Tax'
+    end
+    object ExpQueryDriverSalary: TIntegerField
+      DisplayLabel = #21496#27231#34218#36039
+      DisplayWidth = 8
+      FieldName = 'DriverSalary'
+    end
+    object ExpQueryServiceSalary: TIntegerField
+      DisplayLabel = #26381#21209#21729#34218#36039
+      DisplayWidth = 8
+      FieldName = 'ServiceSalary'
+    end
+    object ExpQueryUnionFee: TIntegerField
+      DisplayLabel = #20844#26371#26371#36027
+      DisplayWidth = 8
+      FieldName = 'UnionFee'
+    end
+    object ExpQueryLicenceTax: TIntegerField
+      DisplayLabel = #29123#26009#21450#29260#29031#31237
+      DisplayWidth = 8
+      FieldName = 'LicenceTax'
+    end
+    object ExpQueryParkFee: TIntegerField
+      DisplayLabel = #36942#36335#21450#20572#36554#36027
+      DisplayWidth = 8
+      FieldName = 'ParkFee'
+    end
+    object ExpQueryFixFee: TIntegerField
+      DisplayLabel = #20462#29702#36027
+      DisplayWidth = 8
+      FieldName = 'FixFee'
+    end
+    object ExpQueryIncidental: TIntegerField
+      DisplayLabel = #38620#38917
+      DisplayWidth = 8
+      FieldName = 'Incidental'
+    end
+    object ExpQueryCellphone: TIntegerField
+      DisplayLabel = #34892#21205#38651#35441
+      DisplayWidth = 8
+      FieldName = 'Cellphone'
+    end
+    object ExpQueryInsurance: TIntegerField
+      DisplayLabel = #21214#20581#20445
+      DisplayWidth = 8
+      FieldName = 'Insurance'
+    end
+    object ExpQueryReserve: TIntegerField
+      DisplayLabel = #31449#36027#27927#36554
+      DisplayWidth = 8
+      FieldName = 'Reserve'
+    end
+    object ExpQueryReserve1: TIntegerField
+      DisplayLabel = #20445#30041#19968
+      DisplayWidth = 8
+      FieldName = 'Reserve1'
+    end
+    object ExpQueryReserve2: TIntegerField
+      DisplayLabel = #20445#30041#20108
+      DisplayWidth = 8
+      FieldName = 'Reserve2'
+    end
+    object ExpQueryReserve3: TIntegerField
+      DisplayLabel = #20445#30041#19977
+      DisplayWidth = 8
+      FieldName = 'Reserve3'
+    end
+    object ExpQueryReserve4: TIntegerField
+      DisplayLabel = #20445#30041#22235
+      DisplayWidth = 8
+      FieldName = 'Reserve4'
+    end
+    object ExpQueryNote: TMemoField
+      DisplayLabel = #20633#35387
+      DisplayWidth = 10
+      FieldName = 'Note'
+      Visible = False
+      BlobType = ftMemo
+    end
+    object ExpQueryNo: TAutoIncField
+      DisplayWidth = 10
+      FieldName = 'No'
+      ReadOnly = True
+      Visible = False
+    end
+    object ExpQueryBusNumber: TWideStringField
+      DisplayWidth = 8
+      FieldName = 'BusNumber'
+      Visible = False
+      Size = 8
+    end
+    object ExpQueryYears: TIntegerField
+      DisplayWidth = 10
+      FieldName = 'Years'
+      Visible = False
+    end
+    object ExpQueryMonths: TIntegerField
+      DisplayWidth = 10
+      FieldName = 'Months'
+      Visible = False
+    end
+  end
+  object ExpConn: TRvDataSetConnection
+    RuntimeVisibility = rtDeveloper
+    DataSet = ExpQuery
+    Left = 160
+    Top = 432
+  end
+  object RvProject2: TRvProject
+    Engine = RvSystem1
+    ProjectFile = 'Pay.rav'
+    Left = 240
+    Top = 432
+  end
+  object MonthGroupQuery: TADOQuery
+    CacheSize = 1000
+    Connection = DM.DBConn
+    CursorType = ctStatic
+    OnCalcFields = MonthQueryCalcFields
+    Parameters = <
+      item
+        Name = 'Years'
+        Attributes = [paNullable]
+        DataType = ftWideString
+        NumericScale = 255
+        Precision = 255
+        Size = 510
+        Value = Null
+      end
+      item
+        Name = 'Month'
+        Attributes = [paNullable]
+        DataType = ftWideString
+        NumericScale = 255
+        Precision = 255
+        Size = 510
+        Value = Null
+      end>
+    SQL.Strings = (
+      'SELECT *'
+      'FROM Travel'
+      'WHERE Groups in'
+      '(SELECT distinct Groups'
+      'FROM Travel'
+      
+        'where Year(TravelDate)=:Years and Month(TravelDate)=:Month and G' +
+        'roups <> '#39#39')'
+      'ORDER BY Groups, TravelDate;'
+      ' ')
+    Left = 624
+    Top = 8
+    object WideStringField1: TWideStringField
+      DisplayLabel = #26085#26399
+      DisplayWidth = 10
+      FieldKind = fkCalculated
+      FieldName = 'ShortTravelDate'
+      Calculated = True
+    end
+    object WideStringField2: TWideStringField
+      Alignment = taCenter
+      DisplayLabel = #23458#25142#21517#31281
+      DisplayWidth = 25
+      FieldName = 'Custom'
+      Size = 30
+    end
+    object WideStringField3: TWideStringField
+      DisplayLabel = #34892#31243
+      DisplayWidth = 30
+      FieldName = 'Travel'
+      Size = 50
+    end
+    object IntegerField1: TIntegerField
+      DisplayLabel = #36554#36039
+      DisplayWidth = 10
+      FieldName = 'Turnover'
+    end
+    object SmallintField1: TSmallintField
+      DisplayLabel = #36335#36027
+      DisplayWidth = 5
+      FieldName = 'TravelExp'
+    end
+    object SmallintField2: TSmallintField
+      DisplayLabel = #27833#37329
+      DisplayWidth = 6
+      FieldName = 'OilExp'
+    end
+    object IntegerField2: TIntegerField
+      DisplayLabel = #20132#26381#36027
+      DisplayWidth = 5
+      FieldName = 'Tips'
+    end
+    object IntegerField3: TIntegerField
+      DisplayLabel = #31532#19968#27425#25910#27454
+      DisplayWidth = 10
+      FieldName = 'FirstIncome'
+    end
+    object WideStringField5: TWideStringField
+      DisplayLabel = #25910#27454#26085#26399
+      DisplayWidth = 10
+      FieldKind = fkCalculated
+      FieldName = 'ShortFirstIncomeDate'
+      Size = 0
+      Calculated = True
+    end
+    object IntegerField4: TIntegerField
+      DisplayLabel = #31532#20108#27425#25910#27454
+      DisplayWidth = 10
+      FieldName = 'SecondIncome'
+    end
+    object WideStringField6: TWideStringField
+      DisplayLabel = #25910#27454#26085#26399
+      DisplayWidth = 10
+      FieldKind = fkCalculated
+      FieldName = 'ShortSecondIncomeDate'
+      Size = 0
+      Calculated = True
+    end
+    object IntegerField5: TIntegerField
+      DisplayLabel = #26410#25910
+      DisplayWidth = 10
+      FieldKind = fkCalculated
+      FieldName = 'NoIncome'
+      Calculated = True
+    end
+    object WideStringField7: TWideStringField
+      DisplayLabel = #20633#35387
+      DisplayWidth = 20
+      FieldName = 'Note'
+      Size = 50
+    end
+    object DateTimeField1: TDateTimeField
+      DisplayLabel = #25910#27454#26085#26399
+      DisplayWidth = 18
+      FieldName = 'SecondIncomeDate'
+      Visible = False
+    end
+    object DateTimeField2: TDateTimeField
+      DisplayLabel = #25910#27454#26085#26399
+      DisplayWidth = 18
+      FieldName = 'FirstIncomeDate'
+      Visible = False
+    end
+    object DateTimeField3: TDateTimeField
+      DisplayLabel = #26085#26399
+      DisplayWidth = 18
+      FieldName = 'TravelDate'
+      Visible = False
+    end
+    object AutoIncField1: TAutoIncField
+      Alignment = taCenter
+      DisplayWidth = 10
+      FieldName = 'No'
+      ReadOnly = True
+      Visible = False
+    end
+    object WideStringField8: TWideStringField
+      DisplayWidth = 8
+      FieldName = 'BusNumber'
+      Visible = False
+      Size = 8
+    end
+    object IntegerField6: TIntegerField
+      DisplayWidth = 10
+      FieldName = 'Tips2'
+      Visible = False
+    end
+    object WideStringField9: TWideStringField
+      DisplayWidth = 6
+      FieldKind = fkCalculated
+      FieldName = 'TotalIncome'
+      Visible = False
+      Size = 6
+      Calculated = True
+    end
+    object IntegerField7: TIntegerField
+      DisplayWidth = 10
+      FieldName = 'Turnover2'
+      Visible = False
+    end
+    object WideStringField10: TWideStringField
+      DisplayWidth = 50
+      FieldName = 'Note2'
+      Visible = False
+      Size = 50
+    end
+    object WideStringField11: TWideStringField
+      DisplayWidth = 5
+      FieldName = 'StartTime'
+      Visible = False
+      Size = 5
+    end
+    object WideStringField12: TWideStringField
+      DisplayWidth = 5
+      FieldName = 'EndTime'
+      Visible = False
+      Size = 5
+    end
+    object MonthGroupQueryGroups: TWideStringField
+      DisplayLabel = #22296#34399
+      FieldName = 'Groups'
+      Size = 10
+    end
+  end
+end

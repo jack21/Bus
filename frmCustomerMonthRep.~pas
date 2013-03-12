@@ -1,0 +1,227 @@
+unit frmCustomerMonthRep;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, Grids, DBGrids, StdCtrls, Buttons, wwdblook, ExtCtrls, DB, ADODB,
+  Wwdbigrd, Wwdbgrid, iniFiles, DateUtils, RpCon, RpConDS, RpBase,
+  RpSystem, RpDefine, RpRave, ComCtrls;
+
+type
+  TCustomerMonthRepForm = class(TForm)
+    Panel1: TPanel;
+    Label1: TLabel;
+    BusLookup: TwwDBLookupCombo;
+    OKBtn: TBitBtn;
+    Panel3: TPanel;
+    BitBtn1: TBitBtn;
+    MonthQuery: TADOQuery;
+    MonthQueryNo: TAutoIncField;
+    MonthQueryBusNumber: TWideStringField;
+    MonthQueryTravelDate: TDateTimeField;
+    MonthQueryCustom: TWideStringField;
+    MonthQueryTravel: TWideStringField;
+    MonthQueryTurnover: TIntegerField;
+    MonthQueryTravelExp: TSmallintField;
+    MonthQueryOilExp: TSmallintField;
+    MonthQueryTips: TIntegerField;
+    MonthQueryShortTravelDate: TWideStringField;
+    MonthQueryNoIncome: TIntegerField;
+    MonthQueryNote: TWideStringField;
+    MonthDS: TDataSource;
+    wwDBGrid: TwwDBGrid;
+    CustomQuery: TADOQuery;
+    CustomDS: TDataSource;
+    CustomQueryCustom: TWideStringField;
+    CountLabel: TLabel;
+    RvProject: TRvProject;
+    RvSystem: TRvSystem;
+    RvDataSetConn: TRvDataSetConnection;
+    MonthQueryFirstIncome: TIntegerField;
+    MonthQueryFirstIncomeDate: TDateTimeField;
+    MonthQuerySecondIncome: TIntegerField;
+    MonthQuerySecondIncomeDate: TDateTimeField;
+    MonthQueryTips2: TIntegerField;
+    MonthQueryNote2: TWideStringField;
+    MonthQueryIncomeTotal: TWideStringField;
+    MonthQueryTurnover2: TIntegerField;
+    MonthQueryUseTime: TWideStringField;
+    MonthQueryStartTime: TWideStringField;
+    MonthQueryEndTime: TWideStringField;
+    MonthGroupQuery: TADOQuery;
+    WideStringField1: TWideStringField;
+    WideStringField2: TWideStringField;
+    WideStringField3: TWideStringField;
+    IntegerField1: TIntegerField;
+    SmallintField1: TSmallintField;
+    SmallintField2: TSmallintField;
+    IntegerField2: TIntegerField;
+    IntegerField3: TIntegerField;
+    WideStringField5: TWideStringField;
+    IntegerField4: TIntegerField;
+    WideStringField6: TWideStringField;
+    IntegerField5: TIntegerField;
+    WideStringField7: TWideStringField;
+    DateTimeField1: TDateTimeField;
+    DateTimeField2: TDateTimeField;
+    DateTimeField3: TDateTimeField;
+    AutoIncField1: TAutoIncField;
+    WideStringField8: TWideStringField;
+    IntegerField6: TIntegerField;
+    WideStringField9: TWideStringField;
+    IntegerField7: TIntegerField;
+    WideStringField10: TWideStringField;
+    WideStringField11: TWideStringField;
+    WideStringField12: TWideStringField;
+    MonthGroupQueryGroups: TWideStringField;
+    GroupBtn: TBitBtn;
+    GroupConn: TRvDataSetConnection;
+    MonthQueryGroups: TWideStringField;
+    MonthGroupQueryIncomeTotal: TIntegerField;
+    MonthGroupQueryUseTime: TWideStringField;
+    GroupBox1: TGroupBox;
+    YearEdit: TEdit;
+    Label3: TLabel;
+    MonthBox: TComboBox;
+    Label4: TLabel;
+    StartTime: TDateTimePicker;
+    EndTime: TDateTimePicker;
+    RadioButton1: TRadioButton;
+    RadioButton2: TRadioButton;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormCreate(Sender: TObject);
+    procedure BusLookupBeforeDropDown(Sender: TObject);
+    procedure OKBtnClick(Sender: TObject);
+    procedure MonthQueryCalcFields(DataSet: TDataSet);
+    procedure BitBtn1Click(Sender: TObject);
+    procedure BusLookupKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure FormShow(Sender: TObject);
+    procedure GroupBtnClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  CustomerMonthRepForm: TCustomerMonthRepForm;
+
+implementation
+
+uses frmDM;
+
+{$R *.dfm}
+
+procedure TCustomerMonthRepForm.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+var
+  iniFile: TIniFile;
+begin
+  iniFile := TIniFile.Create(DM.AppPath + 'Config.ini');
+  iniFile.WriteInteger('CustomerMonthRepForm', 'FormTop', CustomerMonthRepForm.Top);
+  iniFile.WriteInteger('CustomerMonthRepForm', 'FormLeft', CustomerMonthRepForm.Left);
+  iniFile.Free;
+
+  CustomerMonthRepForm := nil;
+  Action := caFree;
+end;
+
+procedure TCustomerMonthRepForm.FormCreate(Sender: TObject);
+var
+  iniFile: TIniFile;
+begin
+  iniFile := TIniFile.Create(DM.AppPath + 'Config.ini');
+  CustomerMonthRepForm.Top := iniFile.ReadInteger('CustomerMonthRepForm', 'FormTop', 0);
+  CustomerMonthRepForm.Left := iniFile.ReadInteger('CustomerMonthRepForm', 'FormLeft', 0);
+  iniFile.Free;
+
+  StartTime.Date := StartOfTheMonth(Today());
+  EndTime.Date := EndOfTheMonth(Today());
+end;
+
+procedure TCustomerMonthRepForm.BusLookupBeforeDropDown(Sender: TObject);
+begin
+  BusLookup.LookupTable.Open;
+end;
+
+procedure TCustomerMonthRepForm.OKBtnClick(Sender: TObject);
+begin
+  {
+  MonthQuery.Close;
+  MonthQuery.Parameters.ParamValues['Customer'] := BusLookup.Text;
+  MonthQuery.Parameters.ParamValues['Years'] := YearEdit.Text;
+  MonthQuery.Parameters.ParamValues['Months'] := MonthBox.Text;
+  MonthQuery.Open;
+  }
+
+  MonthQuery.Close;
+  if RadioButton1.Checked then
+    MonthQuery.SQL.Text := 'Select * From Travel Where Custom = ''' + BusLookup.Text + ''' and Year(TravelDate) = ''' + YearEdit.Text + ''' and Month(TravelDate) = ''' + MonthBox.Text + ''' Order By TravelDate'
+  else if RadioButton2.Checked then
+    MonthQuery.SQL.Text := 'Select * From Travel Where Custom = ''' + BusLookup.Text + ''' and TravelDate between #' + FormatDateTime('yyyy/mm/dd', StartTime.Date) + '# and #' + FormatDateTime('yyyy/mm/dd', EndTime.Date) + '# Order By TravelDate';
+  MonthQuery.Open;
+  CountLabel.Caption := '共有 ' + IntToStr(MonthQuery.RecordCount) + ' 筆行程';
+end;
+
+procedure TCustomerMonthRepForm.MonthQueryCalcFields(DataSet: TDataSet);
+begin
+  DataSet.FieldValues['ShortTravelDate'] := FormatDateTime('mm/dd', DataSet.FieldByName('TravelDate').AsDateTime);
+  DataSet.FieldValues['IncomeTotal'] := DataSet.FieldByName('FirstIncome').AsInteger + DataSet.FieldByName('SecondIncome').AsInteger;
+  DataSet.FieldValues['NoIncome'] := DataSet.FieldByName('Turnover2').AsInteger - DataSet.FieldByName('FirstIncome').AsInteger - DataSet.FieldByName('SecondIncome').AsInteger;
+  DataSet.FieldValues['UseTime'] := DataSet.FieldByName('StartTime').AsString + '～' + DataSet.FieldByName('EndTime').AsString;
+end;
+
+procedure TCustomerMonthRepForm.BitBtn1Click(Sender: TObject);
+begin
+  RvProject.Close;
+  RvProject.ProjectFile := DM.AppPath + 'CustomerMonth.rav';
+  RvProject.Open;
+  RvProject.SetParam('Customer', '客戶名稱：' + BusLookup.Text);
+  if RadioButton1.Checked then
+    RvProject.SetParam('Date', YearEdit.Text + '年' + MonthBox.Text + '月')
+  else if RadioButton2.Checked then
+    RvProject.SetParam('Date', FormatDateTime('yyyy/mm/dd', StartTime.Date) + '～' + FormatDateTime('yyyy/mm/dd', EndTime.Date));
+
+  RvProject.Execute;
+end;
+
+procedure TCustomerMonthRepForm.BusLookupKeyDown(Sender: TObject;
+  var Key: Word; Shift: TShiftState);
+begin
+  if Key = 40 then
+    (Sender As TwwDBLookupCombo).DropDown;
+end;
+
+procedure TCustomerMonthRepForm.FormShow(Sender: TObject);
+begin
+  Width := 861;
+  YearEdit.Text := IntToStr(YearOf(Now));
+  MonthBox.ItemIndex := MonthOf(Now)-1;
+
+  if DM.EditEnable then
+  begin
+    wwDBGrid.Options := wwDBGrid.Options + [Wwdbigrd.dgEditing];
+    wwDBGrid.Options := wwDBGrid.Options - [Wwdbigrd.dgRowSelect];
+  end;
+end;
+
+
+procedure TCustomerMonthRepForm.GroupBtnClick(Sender: TObject);
+begin
+  MonthGroupQuery.Close;
+  MonthGroupQuery.Parameters.ParamValues['Years'] := YearEdit.Text;
+  MonthGroupQuery.Parameters.ParamValues['Months'] := MonthBox.ItemIndex+1;
+  MonthGroupQuery.Parameters.ParamValues['Customs'] := BusLookup.Text;
+  MonthGroupQuery.Open;
+
+  RvProject.Close;
+  RvProject.ProjectFile := DM.AppPath + 'MonthGroup.rav';
+  RvProject.Open;
+  RvProject.SetParam('Customer', '客戶名稱：' + BusLookup.Text);
+  RvProject.SetParam('Date', YearEdit.Text + '年' + IntToStr(MonthBox.ItemIndex+1) + '月');
+  RvProject.Execute;
+end;
+
+end.

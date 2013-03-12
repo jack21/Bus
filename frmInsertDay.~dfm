@@ -1,0 +1,654 @@
+object InsertDayForm: TInsertDayForm
+  Left = 248
+  Top = 128
+  BorderIcons = [biSystemMenu, biMinimize]
+  BorderStyle = bsDialog
+  Caption = #34892#31243
+  ClientHeight = 412
+  ClientWidth = 336
+  Color = clBtnFace
+  Font.Charset = CHINESEBIG5_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = #26032#32048#26126#39636
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poScreenCenter
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 12
+  object Panel2: TPanel
+    Left = 0
+    Top = 0
+    Width = 336
+    Height = 363
+    Align = alClient
+    BevelInner = bvRaised
+    BevelOuter = bvLowered
+    TabOrder = 0
+    object Label2: TLabel
+      Left = 16
+      Top = 24
+      Width = 60
+      Height = 12
+      Caption = #36554#12288#12288#34399#65306
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label3: TLabel
+      Left = 16
+      Top = 48
+      Width = 60
+      Height = 12
+      Caption = #23458#25142#21517#31281#65306
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label4: TLabel
+      Left = 16
+      Top = 72
+      Width = 60
+      Height = 12
+      Caption = #34892#12288#12288#31243#65306
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label5: TLabel
+      Left = 16
+      Top = 120
+      Width = 60
+      Height = 12
+      Caption = #36554#12288#12288#36039#65306
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label6: TLabel
+      Left = 16
+      Top = 144
+      Width = 60
+      Height = 12
+      Caption = #36335#12288#12288#36027#65306
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label7: TLabel
+      Left = 16
+      Top = 168
+      Width = 60
+      Height = 12
+      Caption = #27833#12288#12288#37329#65306
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label8: TLabel
+      Left = 16
+      Top = 192
+      Width = 60
+      Height = 12
+      Caption = #39318#27425#25910#27454#65306
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label9: TLabel
+      Left = 16
+      Top = 240
+      Width = 60
+      Height = 12
+      Caption = #20132'  '#26381'  '#36027#65306
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label10: TLabel
+      Left = 16
+      Top = 288
+      Width = 60
+      Height = 12
+      Caption = #20633#12288#12288#35387#65306
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label1: TLabel
+      Left = 16
+      Top = 264
+      Width = 60
+      Height = 12
+      Caption = #23567#12288#12288#36027#65306
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label11: TLabel
+      Left = 149
+      Top = 192
+      Width = 36
+      Height = 12
+      Caption = #26178#38291#65306
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label12: TLabel
+      Left = 16
+      Top = 216
+      Width = 60
+      Height = 12
+      Caption = #25910#21462#39192#27454#65306
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label13: TLabel
+      Left = 149
+      Top = 216
+      Width = 36
+      Height = 12
+      Caption = #26178#38291#65306
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label14: TLabel
+      Left = 160
+      Top = 120
+      Width = 32
+      Height = 12
+      Caption = '('#20839#24115')'
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label15: TLabel
+      Left = 288
+      Top = 120
+      Width = 32
+      Height = 12
+      Caption = '('#22806#24115')'
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label16: TLabel
+      Left = 16
+      Top = 336
+      Width = 60
+      Height = 12
+      Caption = #20351#29992#26178#38291#65306
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label17: TLabel
+      Left = 194
+      Top = 336
+      Width = 12
+      Height = 12
+      Caption = #65374
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label18: TLabel
+      Left = 16
+      Top = 96
+      Width = 60
+      Height = 12
+      Caption = #22296#12288#12288#34399#65306
+      FocusControl = DBEdit1
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label19: TLabel
+      Left = 16
+      Top = 312
+      Width = 68
+      Height = 12
+      Caption = #20633#35387'('#23458#25142')'#65306
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      ParentFont = False
+    end
+    object BusLookup: TwwDBLookupCombo
+      Left = 80
+      Top = 20
+      Width = 241
+      Height = 19
+      AutoSize = False
+      Ctl3D = True
+      DropDownAlignment = taLeftJustify
+      Selected.Strings = (
+        'BusNumber'#9'8'#9#36554#34399#9'F'
+        'Driver'#9'10'#9#39381#39387#20154#9'F')
+      DataField = 'BusNumber'
+      DataSource = DayForm.DayDS
+      LookupTable = DM.BusTbl
+      LookupField = 'BusNumber'
+      Options = [loColLines, loRowLines, loTitles]
+      ParentCtl3D = False
+      TabOrder = 0
+      AutoDropDown = True
+      ShowButton = True
+      PreciseEditRegion = False
+      AllowClearKey = False
+      OnKeyDown = BusLookupKeyDown
+    end
+    object CustomLookup: TwwDBLookupCombo
+      Left = 80
+      Top = 44
+      Width = 241
+      Height = 19
+      AutoSize = False
+      Ctl3D = True
+      DropDownAlignment = taLeftJustify
+      Selected.Strings = (
+        'Custom'#9'25'#9#23458#25142#21517#31281#9'F')
+      DataField = 'Custom'
+      DataSource = DayForm.DayDS
+      LookupTable = CustomQuery
+      LookupField = 'Custom'
+      Options = [loColLines, loRowLines, loTitles]
+      DropDownCount = 12
+      ParentCtl3D = False
+      TabOrder = 1
+      AutoDropDown = True
+      ShowButton = True
+      PreciseEditRegion = False
+      AllowClearKey = False
+      OnKeyDown = CustomLookupKeyDown
+    end
+    object TravelLookup: TwwDBLookupCombo
+      Left = 80
+      Top = 68
+      Width = 241
+      Height = 19
+      AutoSize = False
+      Ctl3D = True
+      DropDownAlignment = taLeftJustify
+      Selected.Strings = (
+        'Travel'#9'30'#9#34892#31243#9'F')
+      DataField = 'Travel'
+      DataSource = DayForm.DayDS
+      LookupTable = TravelQuery
+      LookupField = 'Travel'
+      Options = [loColLines, loRowLines, loTitles]
+      DropDownCount = 12
+      ParentCtl3D = False
+      TabOrder = 2
+      AutoDropDown = True
+      ShowButton = True
+      PreciseEditRegion = False
+      AllowClearKey = False
+      OnKeyDown = TravelLookupKeyDown
+    end
+    object TurnoverEdit: TDBEdit
+      Left = 80
+      Top = 116
+      Width = 73
+      Height = 18
+      Ctl3D = False
+      DataField = 'Turnover'
+      DataSource = DayForm.DayDS
+      ParentCtl3D = False
+      TabOrder = 4
+    end
+    object TravelExpEdit: TDBEdit
+      Left = 80
+      Top = 140
+      Width = 241
+      Height = 18
+      Ctl3D = False
+      DataField = 'TravelExp'
+      DataSource = DayForm.DayDS
+      ParentCtl3D = False
+      TabOrder = 6
+    end
+    object OilExpEdit: TDBEdit
+      Left = 80
+      Top = 164
+      Width = 241
+      Height = 18
+      Ctl3D = False
+      DataField = 'OilExp'
+      DataSource = DayForm.DayDS
+      ParentCtl3D = False
+      TabOrder = 7
+    end
+    object FirstIncomeEdit: TDBEdit
+      Left = 80
+      Top = 188
+      Width = 65
+      Height = 18
+      Ctl3D = False
+      DataField = 'FirstIncome'
+      DataSource = DayForm.DayDS
+      ParentCtl3D = False
+      TabOrder = 8
+    end
+    object TipsEdit: TDBEdit
+      Left = 80
+      Top = 236
+      Width = 241
+      Height = 18
+      Ctl3D = False
+      DataField = 'Tips'
+      DataSource = DayForm.DayDS
+      ParentCtl3D = False
+      TabOrder = 12
+    end
+    object NoteEdit: TDBEdit
+      Left = 80
+      Top = 284
+      Width = 241
+      Height = 18
+      Ctl3D = False
+      DataField = 'Note'
+      DataSource = DayForm.DayDS
+      MaxLength = 80
+      ParentCtl3D = False
+      TabOrder = 14
+    end
+    object Tips2Edit: TDBEdit
+      Left = 80
+      Top = 260
+      Width = 241
+      Height = 18
+      Ctl3D = False
+      DataField = 'Tips2'
+      DataSource = DayForm.DayDS
+      ParentCtl3D = False
+      TabOrder = 13
+    end
+    object wwDBDateTimePicker1: TwwDBDateTimePicker
+      Left = 184
+      Top = 188
+      Width = 137
+      Height = 20
+      CalendarAttributes.Font.Charset = DEFAULT_CHARSET
+      CalendarAttributes.Font.Color = clWindowText
+      CalendarAttributes.Font.Height = -11
+      CalendarAttributes.Font.Name = 'MS Sans Serif'
+      CalendarAttributes.Font.Style = []
+      DataField = 'FirstIncomeDate'
+      DataSource = DayForm.DayDS
+      Epoch = 1950
+      ShowButton = True
+      TabOrder = 9
+      UnboundDataType = wwDTEdtDate
+    end
+    object SecondIncomeEdit: TDBEdit
+      Left = 80
+      Top = 212
+      Width = 65
+      Height = 18
+      Ctl3D = False
+      DataField = 'SecondIncome'
+      DataSource = DayForm.DayDS
+      ParentCtl3D = False
+      TabOrder = 10
+    end
+    object wwDBDateTimePicker2: TwwDBDateTimePicker
+      Left = 184
+      Top = 212
+      Width = 137
+      Height = 20
+      CalendarAttributes.Font.Charset = DEFAULT_CHARSET
+      CalendarAttributes.Font.Color = clWindowText
+      CalendarAttributes.Font.Height = -11
+      CalendarAttributes.Font.Name = 'MS Sans Serif'
+      CalendarAttributes.Font.Style = []
+      DataField = 'SecondIncomeDate'
+      DataSource = DayForm.DayDS
+      Epoch = 1950
+      ShowButton = True
+      TabOrder = 11
+      UnboundDataType = wwDTEdtDate
+    end
+    object Turnover2Edit: TDBEdit
+      Left = 212
+      Top = 116
+      Width = 73
+      Height = 18
+      Ctl3D = False
+      DataField = 'Turnover2'
+      DataSource = DayForm.DayDS
+      ParentCtl3D = False
+      TabOrder = 5
+    end
+    object DBAdvMaskEdit1: TDBAdvMaskEdit
+      Left = 80
+      Top = 332
+      Width = 97
+      Height = 18
+      Color = clWindow
+      Ctl3D = False
+      Enabled = True
+      EditMask = '00:00;1;_'
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      MaxLength = 5
+      ParentCtl3D = False
+      ParentFont = False
+      TabOrder = 15
+      Text = '  :  '
+      Visible = True
+      AutoFocus = False
+      DisabledColor = clSilver
+      Flat = False
+      FlatLineColor = clBlack
+      FlatParentColor = True
+      ShowModified = False
+      FocusColor = clWindow
+      FocusBorder = False
+      FocusFontColor = clBlack
+      LabelAlwaysEnabled = False
+      LabelPosition = lpLeftTop
+      LabelMargin = 4
+      LabelTransparent = False
+      LabelFont.Charset = DEFAULT_CHARSET
+      LabelFont.Color = clWindowText
+      LabelFont.Height = -11
+      LabelFont.Name = 'MS Sans Serif'
+      LabelFont.Style = []
+      ModifiedColor = clRed
+      Alignement = taCenter
+      SelectFirstChar = False
+      Version = '2.6.2.1'
+      DataField = 'StartTime'
+      DataSource = DayForm.DayDS
+    end
+    object DBAdvMaskEdit2: TDBAdvMaskEdit
+      Left = 224
+      Top = 332
+      Width = 96
+      Height = 18
+      Color = clWindow
+      Ctl3D = False
+      Enabled = True
+      EditMask = '00:00;1;_'
+      MaxLength = 5
+      ParentCtl3D = False
+      TabOrder = 16
+      Text = '  :  '
+      Visible = True
+      AutoFocus = False
+      DisabledColor = clSilver
+      Flat = False
+      FlatLineColor = clBlack
+      FlatParentColor = True
+      ShowModified = False
+      FocusColor = clWindow
+      FocusBorder = False
+      FocusFontColor = clBlack
+      LabelAlwaysEnabled = False
+      LabelPosition = lpLeftTop
+      LabelMargin = 4
+      LabelTransparent = False
+      LabelFont.Charset = DEFAULT_CHARSET
+      LabelFont.Color = clWindowText
+      LabelFont.Height = -11
+      LabelFont.Name = 'MS Sans Serif'
+      LabelFont.Style = []
+      ModifiedColor = clRed
+      Alignement = taCenter
+      SelectFirstChar = False
+      Version = '2.6.2.1'
+      DataField = 'EndTime'
+      DataSource = DayForm.DayDS
+    end
+    object DBEdit1: TDBEdit
+      Left = 80
+      Top = 92
+      Width = 241
+      Height = 18
+      Ctl3D = False
+      DataField = 'Groups'
+      DataSource = DayForm.DayDS
+      ParentCtl3D = False
+      TabOrder = 3
+    end
+    object Note2Edit: TDBEdit
+      Left = 80
+      Top = 308
+      Width = 241
+      Height = 18
+      Ctl3D = False
+      DataField = 'Note2'
+      DataSource = DayForm.DayDS
+      MaxLength = 80
+      ParentCtl3D = False
+      TabOrder = 17
+    end
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 363
+    Width = 336
+    Height = 49
+    Align = alBottom
+    BevelInner = bvRaised
+    BevelOuter = bvLowered
+    TabOrder = 1
+    object OKBtn: TBitBtn
+      Left = 16
+      Top = 12
+      Width = 75
+      Height = 25
+      Caption = #30906#23450'(&N)'
+      TabOrder = 0
+      OnClick = OKBtnClick
+    end
+    object CancelBtn: TBitBtn
+      Left = 248
+      Top = 12
+      Width = 75
+      Height = 25
+      Caption = #21462#28040'(&C)'
+      TabOrder = 1
+      OnClick = CancelBtnClick
+    end
+  end
+  object CustomQuery: TADOQuery
+    CacheSize = 1000
+    Connection = DM.DBConn
+    CursorType = ctStatic
+    Parameters = <>
+    SQL.Strings = (
+      'Select Distinct Custom'
+      'From Travel'
+      'Where Custom <> '#39#39
+      'Order By Custom')
+    Left = 144
+    Top = 8
+    object CustomQueryCustom: TWideStringField
+      DisplayLabel = #23458#25142#21517#31281
+      DisplayWidth = 25
+      FieldName = 'Custom'
+      Size = 30
+    end
+  end
+  object TravelQuery: TADOQuery
+    CacheSize = 1000
+    Connection = DM.DBConn
+    CursorType = ctStatic
+    Parameters = <>
+    SQL.Strings = (
+      'Select Distinct Travel'
+      'From Travel'
+      'Where Travel <> '#39#39)
+    Left = 176
+    Top = 8
+    object TravelQueryTravel: TWideStringField
+      FieldName = 'Travel'
+      Size = 50
+    end
+  end
+end

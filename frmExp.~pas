@@ -1,0 +1,205 @@
+unit frmExp;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, wwrcdpnl, StdCtrls, Buttons, wwdblook, ExtCtrls, DB, ADODB,
+  Grids, Wwdbgrid, iniFiles, DateUtils, Mask, DBCtrls, Wwdbigrd, BaseGrid,
+  AdvGrid;
+
+type
+  TExpForm = class(TForm)
+    Panel1: TPanel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    YearEdit: TEdit;
+    MonthBox: TComboBox;
+    OKBtn: TBitBtn;
+    Panel3: TPanel;
+    SaveBtn: TBitBtn;
+    ExpQuery: TADOQuery;
+    ExpDS: TDataSource;
+    DBGrid: TwwDBGrid;
+    ExpQueryNo: TAutoIncField;
+    ExpQueryBusNumber: TWideStringField;
+    ExpQueryYears: TIntegerField;
+    ExpQueryMonths: TIntegerField;
+    ExpQueryMemberFee: TIntegerField;
+    ExpQueryTax: TIntegerField;
+    ExpQueryDriverSalary: TIntegerField;
+    ExpQueryServiceSalary: TIntegerField;
+    ExpQueryUnionFee: TIntegerField;
+    ExpQueryLicenceTax: TIntegerField;
+    ExpQueryParkFee: TIntegerField;
+    ExpQueryFixFee: TIntegerField;
+    ExpQueryIncidental: TIntegerField;
+    ExpQueryCellphone: TIntegerField;
+    ExpQueryInsurance: TIntegerField;
+    ExpQueryReserve: TIntegerField;
+    Label10: TLabel;
+    ExpQueryReserve1: TIntegerField;
+    ExpQueryReserve2: TIntegerField;
+    ExpQueryReserve3: TIntegerField;
+    ExpQueryReserve4: TIntegerField;
+    ExpQueryNote: TMemoField;
+    DBMemo1: TDBMemo;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormCreate(Sender: TObject);
+    procedure SaveBtnClick(Sender: TObject);
+    procedure OKBtnClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+  private
+    { Private declarations }
+    procedure OpenExp(Year, Month: Integer); // 開啟 Year 年 Month 月的 Exp 記錄
+  public
+    { Public declarations }
+    function DetectRec(Year, Month: Integer): boolean; // 偵測 Year 年 Month 月是否有存在紀錄
+    procedure InsertNew(Year, Month: Integer); // 新增 Year 年 Month 月的所有車的費用紀錄
+  end;
+
+var
+  ExpForm: TExpForm;
+
+implementation
+
+uses frmDM;
+
+{$R *.dfm}
+
+procedure TExpForm.FormClose(Sender: TObject; var Action: TCloseAction);
+var
+  iniFile: TIniFile;
+begin
+  //判斷是否有異動過的資料
+  ExpQuery.Filtered := true;
+  ExpQuery.FilterGroup := fgPendingRecords;
+  if ExpQuery.RecordCount > 0 then
+    if MessageDlg('是否要儲存資料？', mtWarning, [mbYes,mbNo], 0) = mrYes then
+      ExpQuery.UpdateBatch();
+
+  iniFile := TIniFile.Create(DM.AppPath + 'Config.ini');
+  iniFile.WriteInteger('ExpForm', 'FormTop', ExpForm.Top);
+  iniFile.WriteInteger('ExpForm', 'FormLeft', ExpForm.Left);
+  iniFile.Free;
+
+  ExpQuery.Cancel;
+  ExpQuery.Close;
+  ExpForm := nil;
+  Action := caFree;
+end;
+
+procedure TExpForm.FormCreate(Sender: TObject);
+var
+  iniFile: TIniFile;
+begin
+  iniFile := TIniFile.Create(DM.AppPath + 'Config.ini');
+  ExpForm.Top := iniFile.ReadInteger('ExpForm', 'FormTop', 0);
+  ExpForm.Left := iniFile.ReadInteger('ExpForm', 'FormLeft', 0);
+  iniFile.Free;
+
+  Width := 892;
+
+  // 判斷此月份是否有紀錄存在，不存在則新增
+  //if not DetectRec(YearOf(Now), MonthOf(Now)) then
+  InsertNew(YearOf(Now), MonthOf(Now));
+
+  // 初始時間元件文字
+  YearEdit.Text := IntToStr(YearOf(Now));
+  MonthBox.ItemIndex := MonthOf(Now)-1;
+
+  // 開啟 Exp
+  OpenExp(YearOf(Now), MonthOf(Now));
+end;
+
+
+
+{----- 偵測 Year 年 Month 月是否有存在紀錄 -----}
+function TExpForm.DetectRec(Year, Month: Integer): boolean;
+var
+  Count: Integer;
+begin
+  Count := DM.ExecuteScalar(DM.Query, 'Select Count(*) From Exp Where Years=' + IntToStr(Year) + ' and Months=' + IntToStr(Month));
+
+  if Count = 0 then
+    Result := false
+  else
+    Result := true;
+end;
+
+
+
+{----- 新增 Year 年 Month 月的所有車的費用紀錄 -----}
+procedure TExpForm.InsertNew(Year, Month: Integer);
+var
+  SQL: String;
+  Count: Integer;
+begin
+  DM.BusTbl.Open;
+
+  DM.BusTbl.First;
+  while not DM.BusTbl.Eof do
+  begin
+    Count := DM.ExecuteScalar(DM.Query, 'Select Count(*) From Exp Where BusNumber=''' + DM.BusTbl.FieldByName('BusNumber').AsString + ''' and Years=' + IntToStr(Year) + ' and Months=' + IntToStr(Month));
+
+    if Count = 0 then
+    begin
+      SQL := 'Insert Into Exp (BusNumber,                                              Years,                 Months,                 MemberFee,Tax,DriverSalary,ServiceSalary,UnionFee,LicenceTax,' +
+             'ParkFee,FixFee,Incidental,Cellphone,Insurance,Reserve,Reserve1,Reserve2) Values ';
+      SQL := SQL +          ' (''' + DM.BusTbl.FieldByName('BusNumber').AsString + ''',' + IntToStr(Year) + ',' + IntToStr(Month) + ',10000,    0,  0,           0,            0,       0,         0,      0,     0,         0,        0,        0,      0,       0)';
+      DM.ExecuteQuery(DM.Query, SQL, true);
+    end;
+    DM.BusTbl.Next;
+  end;
+end;
+
+{----- 開啟 Year 年 Month 月的 Exp 記錄 -----}
+procedure TExpForm.OpenExp(Year, Month: Integer);
+begin
+  ExpQuery.Close;
+  ExpQuery.Parameters.ParamValues['myYear'] := Year;
+  ExpQuery.Parameters.ParamValues['myMonth'] := Month;
+  ExpQuery.Open;
+end;
+
+procedure TExpForm.SaveBtnClick(Sender: TObject);
+begin
+  try
+    if ExpQuery.State in [dsEdit, dsInsert] then
+      ExpQuery.Post;
+    ExpQuery.UpdateBatch();
+    MessageDlg('修改成功！', mtInformation, [mbOK], 0);
+  except
+    MessageDlg('修改失敗！', mtError, [mbOK], 0);
+  end;
+end;
+
+procedure TExpForm.OKBtnClick(Sender: TObject);
+var
+  Year: Integer;
+begin
+  try
+    Year := StrToInt(YearEdit.Text);
+  except
+    MessageDlg('年份錯誤！', mtError, [mbOK], 0);
+    exit;
+  end;
+
+  // 判斷此月份是否有紀錄存在，不存在則新增
+  //if not DetectRec(Year, StrToInt(MonthBox.Text)) then
+  InsertNew(Year, StrToInt(MonthBox.Text));
+  OpenExp(Year, StrToInt(MonthBox.Text));
+end;
+
+procedure TExpForm.FormShow(Sender: TObject);
+begin
+  if DM.EditEnable then
+  begin
+    DBGrid.Options := DBGrid.Options + [Wwdbigrd.dgEditing];
+    DBGrid.Options := DBGrid.Options - [Wwdbigrd.dgRowSelect];
+    Panel3.Enabled := true;
+  end;
+end;
+
+end.

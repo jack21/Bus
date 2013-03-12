@@ -1,0 +1,143 @@
+unit frmDM;
+
+interface
+
+uses
+  Forms, SysUtils, Classes, DB, ADODB, ImgList, Controls, Wwintl, RzCommon;
+
+type
+  TDM = class(TDataModule)
+    DBConn: TADOConnection;
+    BusTbl: TADOTable;
+    BusTblBusNumber: TWideStringField;
+    BusTblDriver: TWideStringField;
+    TravelTbl: TADOTable;
+    TravelTblBusNumber: TWideStringField;
+    TravelTblTravelDate: TDateTimeField;
+    TravelTblCustom: TWideStringField;
+    TravelTblTravel: TWideStringField;
+    TravelTblTurnover: TIntegerField;
+    TravelTblTravelExp: TSmallintField;
+    TravelTblOilExp: TSmallintField;
+    TravelTblTips: TIntegerField;
+    ImageList: TImageList;
+    wwIntl: TwwIntl;
+    Query: TADOQuery;
+    BusDS: TDataSource;
+    TravelTblNo: TAutoIncField;
+    TravelTblNote: TWideStringField;
+    TravelTblTips2: TIntegerField;
+    TravelTblFirstIncome: TIntegerField;
+    TravelTblFirstIncomeDate: TDateTimeField;
+    TravelTblSecondIncome: TIntegerField;
+    TravelTblSecondIncomeDate: TDateTimeField;
+    SalaryMiscDataSet: TADODataSet;
+    TravelDataSet: TADODataSet;
+    TravelDataSetCustom: TWideStringField;
+    TravelDataSetTotalTurnover: TFloatField;
+    TravelDataSetTotalNotIncome: TFloatField;
+    RegIniFile: TRzRegIniFile;
+    procedure DataModuleCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    AppPath: String;        
+    EditEnable: Boolean;
+    DayEditEnable: Boolean;
+    function CheckSuperPassword(NewPassword: String): boolean;
+    function CheckDayPassword(NewPassword: String): boolean;
+    function ExecuteScalar(var myQuery: TADOQuery; SQL: string): Variant;
+    function ExecuteQuery(var myQuery: TADOQuery; SQL: string; IsExecute: boolean = false): boolean;
+  end;
+
+var
+  DM: TDM;
+
+implementation
+
+uses md5;
+
+{$R *.dfm}
+
+function TDM.CheckDayPassword(NewPassword: String): boolean;
+var
+  OldPassWord: String;
+begin
+  OldPassWord := RegIniFile.ReadString('Login', 'DayPassWord', MD5Print(MD5String('1234')));
+
+  if MD5Print(MD5String(NewPassword)) = OldPassWord then
+    result := true
+  else
+    result := false
+end;
+
+
+function TDM.CheckSuperPassword(NewPassword: String): boolean;
+var
+  OldPassWord: String;
+begin
+  OldPassWord := RegIniFile.ReadString('Login', 'SuperPassWord', MD5Print(MD5String('1234')));
+
+  if MD5Print(MD5String(NewPassword)) = OldPassWord then
+    result := true
+  else
+    result := false
+end;
+
+procedure TDM.DataModuleCreate(Sender: TObject);
+begin
+  DBConn.Close;
+  AppPath := IncludeTrailingPathDelimiter(ExtractFilePath(Application.ExeName));
+  DBConn.ConnectionString := 'Provider=Microsoft.Jet.OLEDB.4.0;'+
+                             'User ID=Admin;'+
+                             'Data Source='+AppPath+'/DataBase/db.mdb;'+
+                             'Mode=Share Deny None;'+
+                             'Extended Properties="";'+
+                             'Jet OLEDB:System database="";'+
+                             'Jet OLEDB:Registry Path="";'+
+                             'Jet OLEDB:Database Password="";'+
+                             'Jet OLEDB:Engine Type=5;'+
+                             'Jet OLEDB:Database Locking Mode=1;'+
+                             'Jet OLEDB:Global Partial Bulk Ops=2;'+
+                             'Jet OLEDB:Global Bulk Transactions=1;'+
+                             'Jet OLEDB:New Database Password="";'+
+                             'Jet OLEDB:Create System Database=False;'+
+                             'Jet OLEDB:Encrypt Database=False;'+
+                             'Jet OLEDB:Don''t Copy Locale on Compact=False;'+
+                             'Jet OLEDB:Compact Without Replica Repair=False;'+
+                             'Jet OLEDB:SFP=False';
+  DBConn.Open;   
+  TravelTbl.Open;
+  BusTbl.Open;
+
+  RegIniFile.Path := DM.AppPath + 'Config.ini';
+                            
+  EditEnable := false;      
+  DayEditEnable := false;
+end;
+
+function TDM.ExecuteQuery(var myQuery : TADOQuery; SQL : string; IsExecute : boolean = false) : boolean;
+begin
+  result := true;
+  try
+    myQuery.Close;
+    myQuery.SQL.Clear;
+    myQuery.SQL.Append(SQL);
+    if IsExecute then
+      myQuery.ExecSQL
+    else
+      myQuery.Open;
+  except
+    result := false;
+  end;
+end;
+
+// 傳回Query中的第一筆的第一個欄位資料
+function TDM.ExecuteScalar(var myQuery : TADOQuery; SQL : string) : Variant;
+begin
+  ExecuteQuery(myQuery, SQL);
+  result := myQuery.Fields.Fields[0].AsVariant;
+end;
+
+end.

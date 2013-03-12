@@ -1,0 +1,282 @@
+unit frmMonthRep;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, wwdblook, ExtCtrls, DateUtils, Buttons, Grids,
+  BaseGrid, AdvGrid, DBAdvGrd, DB, ADODB, asgprint,
+  RpBase, RpSystem, RpDefine, RpRave, RpCon, RpConDS, DBGrids, iniFiles,
+  OleServer, WordXP, Word2000, Wwdbigrd, Wwdbgrid, ComCtrls;
+
+type
+  TMonthRepForm = class(TForm)
+    Panel1: TPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    BusLookup: TwwDBLookupCombo;
+    YearEdit: TEdit;
+    Label3: TLabel;
+    Label4: TLabel;
+    MonthBox: TComboBox;
+    OKBtn: TBitBtn;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    MonthQuery: TADOQuery;
+    MonthDS: TDataSource;
+    MonthQueryNo: TAutoIncField;
+    MonthQueryBusNumber: TWideStringField;
+    MonthQueryTravelDate: TDateTimeField;
+    MonthQueryCustom: TWideStringField;
+    MonthQueryTravel: TWideStringField;
+    MonthQueryTurnover: TIntegerField;
+    MonthQueryTravelExp: TSmallintField;
+    MonthQueryOilExp: TSmallintField;
+    MonthQueryTips: TIntegerField;
+    MonthQueryShortTravelDate: TWideStringField;
+    MonthQueryNoIncome: TIntegerField;
+    MonthRepBtn: TBitBtn;
+    RvProject1: TRvProject;
+    RvSystem1: TRvSystem;
+    RvDataSetConnection1: TRvDataSetConnection;
+    ExpDS: TDataSource;
+    Panel4: TPanel;
+    ExpQuery: TADOQuery;
+    ExpQueryNo: TAutoIncField;
+    ExpQueryBusNumber: TWideStringField;
+    ExpQueryYears: TIntegerField;
+    ExpQueryMonths: TIntegerField;
+    ExpQueryMemberFee: TIntegerField;
+    ExpQueryTax: TIntegerField;
+    ExpQueryDriverSalary: TIntegerField;
+    ExpQueryServiceSalary: TIntegerField;
+    ExpQueryUnionFee: TIntegerField;
+    ExpQueryLicenceTax: TIntegerField;
+    ExpQueryParkFee: TIntegerField;
+    ExpQueryFixFee: TIntegerField;
+    ExpQueryIncidental: TIntegerField;
+    wwDBGrid1: TwwDBGrid;
+    ExpConn: TRvDataSetConnection;
+    MonthQueryNote: TWideStringField;
+    ExpQueryCellphone: TIntegerField;
+    ExpQueryInsurance: TIntegerField;
+    ExpQueryReserve: TIntegerField;
+    ExpQueryReserve1: TIntegerField;
+    ExpQueryReserve2: TIntegerField;
+    ExpQueryReserve3: TIntegerField;
+    ExpQueryReserve4: TIntegerField;
+    MonthGrid: TwwDBGrid;
+    MonthQueryFirstIncome: TIntegerField;
+    MonthQueryFirstIncomeDate: TDateTimeField;
+    MonthQuerySecondIncome: TIntegerField;
+    MonthQuerySecondIncomeDate: TDateTimeField;
+    MonthQueryTips2: TIntegerField;
+    MonthQueryShortFirstIncomeDate: TWideStringField;
+    MonthQueryShortSecondIncomeDate: TWideStringField;
+    MonthQueryTotalIncome: TWideStringField;
+    PayRepBtn: TBitBtn;
+    RvProject2: TRvProject;
+    MonthQueryGroup: TWideStringField;
+    MonthQueryTurnover2: TIntegerField;
+    MonthQueryNote2: TWideStringField;
+    MonthQueryStartTime: TWideStringField;
+    MonthQueryEndTime: TWideStringField;
+    MonthGroupQuery: TADOQuery;
+    WideStringField1: TWideStringField;
+    WideStringField2: TWideStringField;
+    WideStringField3: TWideStringField;
+    IntegerField1: TIntegerField;
+    SmallintField1: TSmallintField;
+    SmallintField2: TSmallintField;
+    IntegerField2: TIntegerField;
+    IntegerField3: TIntegerField;
+    WideStringField5: TWideStringField;
+    IntegerField4: TIntegerField;
+    WideStringField6: TWideStringField;
+    IntegerField5: TIntegerField;
+    WideStringField7: TWideStringField;
+    DateTimeField1: TDateTimeField;
+    DateTimeField2: TDateTimeField;
+    DateTimeField3: TDateTimeField;
+    AutoIncField1: TAutoIncField;
+    WideStringField8: TWideStringField;
+    IntegerField6: TIntegerField;
+    WideStringField9: TWideStringField;
+    IntegerField7: TIntegerField;
+    WideStringField10: TWideStringField;
+    WideStringField11: TWideStringField;
+    WideStringField12: TWideStringField;
+    MonthGroupQueryGroups: TWideStringField;
+    ExpQueryNote: TMemoField;
+    procedure FormShow(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure MonthQueryCalcFields(DataSet: TDataSet);
+    procedure OKBtnClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure MonthRepBtnClick(Sender: TObject);
+    procedure PayRepBtnClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  MonthRepForm: TMonthRepForm;
+
+implementation
+
+uses frmDM, frmExp;
+
+{$R *.dfm}
+
+
+
+procedure TMonthRepForm.FormShow(Sender: TObject);
+begin
+  YearEdit.Text := IntToStr(YearOf(Now));
+  MonthBox.ItemIndex := MonthOf(Now)-1;
+  Width := 830;
+
+  if DM.EditEnable then
+  begin
+    MonthGrid.Options := MonthGrid.Options + [Wwdbigrd.dgEditing];
+    MonthGrid.Options := MonthGrid.Options - [Wwdbigrd.dgRowSelect];
+    wwDBGrid1.Options := wwDBGrid1.Options + [Wwdbigrd.dgEditing];
+    wwDBGrid1.Options := wwDBGrid1.Options - [Wwdbigrd.dgRowSelect];
+  end;
+end;
+
+
+
+procedure TMonthRepForm.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+var
+  iniFile: TIniFile;
+begin
+  iniFile := TIniFile.Create(DM.AppPath + 'Config.ini');
+  iniFile.WriteInteger('MonthRepForm', 'FormTop', MonthRepForm.Top);
+  iniFile.WriteInteger('MonthRepForm', 'FormLeft', MonthRepForm.Left);
+  iniFile.Free;
+
+  if MonthQuery.State in [dsEdit, dsInsert] then
+    MonthQuery.Post;
+  MonthQuery.Close;
+  MonthRepForm := nil;
+  Action := caFree;
+end;
+
+
+
+procedure TMonthRepForm.MonthQueryCalcFields(DataSet: TDataSet);
+begin
+  DataSet.FieldValues['ShortTravelDate'] := FormatDateTime('mm/dd', DataSet.FieldByName('TravelDate').AsDateTime);
+  DataSet.FieldValues['ShortFirstIncomeDate'] := FormatDateTime('mm/dd', DataSet.FieldByName('FirstIncomeDate').AsDateTime);
+  DataSet.FieldValues['ShortSecondIncomeDate'] := FormatDateTime('mm/dd', DataSet.FieldByName('SecondIncomeDate').AsDateTime);
+  DataSet.FieldValues['TotalIncome'] := DataSet.FieldByName('FirstIncome').AsInteger + DataSet.FieldByName('SecondIncome').AsInteger;
+  DataSet.FieldValues['NoIncome'] := DataSet.FieldByName('Turnover').AsInteger - DataSet.FieldByName('FirstIncome').AsInteger - DataSet.FieldByName('SecondIncome').AsInteger;
+end;
+
+
+
+procedure TMonthRepForm.OKBtnClick(Sender: TObject);
+var
+  Year: Integer;
+begin
+  try
+    Year := StrToInt(YearEdit.Text);
+  except
+    MessageDlg('年份錯誤！', mtError, [mbOK], 0);
+    exit;
+  end;
+
+
+  MonthQuery.Close;
+  MonthQuery.Parameters.ParamValues['BusNum'] := BusLookup.Text;
+  MonthQuery.Parameters.ParamValues['Years'] := YearEdit.Text;
+  MonthQuery.Parameters.ParamValues['Months'] := MonthBox.Text;
+  MonthQuery.Open;
+
+
+  if not ExpForm.DetectRec(Year, StrToInt(MonthBox.Text)) then
+    ExpForm.InsertNew(Year, StrToInt(MonthBox.Text));
+
+
+  ExpQuery.Close;
+  ExpQuery.Parameters.ParamValues['BusNum'] := BusLookup.Text;
+  ExpQuery.Parameters.ParamValues['myYear'] := YearEdit.Text;
+  ExpQuery.Parameters.ParamValues['myMonth'] := MonthBox.Text;
+  ExpQuery.Open;
+  
+end;
+
+
+
+procedure TMonthRepForm.FormCreate(Sender: TObject);
+var
+  iniFile: TIniFile;
+begin
+  iniFile := TIniFile.Create(DM.AppPath + 'Config.ini');
+  MonthRepForm.Top := iniFile.ReadInteger('MonthRepForm', 'FormTop', 0);
+  MonthRepForm.Left := iniFile.ReadInteger('MonthRepForm', 'FormLeft', 0);
+  iniFile.Free;
+  
+end;
+
+
+
+
+procedure TMonthRepForm.MonthRepBtnClick(Sender: TObject);
+var
+  sTemp: String;
+  Income, Outcome: Integer;
+begin
+  RvProject1.ProjectFile := DM.AppPath + 'Month.rav';
+
+  sTemp := '日期:' + YearEdit.Text + '年' + MonthBox.Text + '月';
+  sTemp := sTemp + '　　　　　　　　　　　　　　　　　';
+  sTemp := sTemp + '車號:' + BusLookup.LookupTable.FieldByName('BusNumber').AsString;
+  sTemp := sTemp + '　駕駛:' + BusLookup.LookupTable.FieldByName('Driver').AsString;
+  RvProject1.SetParam('Title',sTemp);
+
+  // 計算收入、支出
+  DM.ExecuteQuery(DM.Query, 'Select SUM(Turnover) AS SumTurnover, SUM(OilExp) AS SumOilExp, SUM(Tips) AS SUMTips From Travel Where BusNumber=''' + MonthQuery.Parameters.ParamValues['BusNum'] + ''' and Year(TravelDate) = ' + MonthQuery.Parameters.ParamValues['Years'] + ' and Month(TravelDate)=' + MonthQuery.Parameters.ParamValues['Months']);
+  Outcome := DM.Query.FieldByName('SumOilExp').AsInteger + DM.Query.FieldByName('SumTips').AsInteger;
+  Outcome := OutCome + ExpQuery.FieldByName('MemberFee').AsInteger;
+  Outcome := OutCome + ExpQuery.FieldByName('Tax').AsInteger;
+  Outcome := OutCome + ExpQuery.FieldByName('DriverSalary').AsInteger;
+  Outcome := OutCome + ExpQuery.FieldByName('ServiceSalary').AsInteger;
+  Outcome := OutCome + ExpQuery.FieldByName('UnionFee').AsInteger;
+  Outcome := OutCome + ExpQuery.FieldByName('LicenceTax').AsInteger;
+  Outcome := OutCome + ExpQuery.FieldByName('ParkFee').AsInteger;
+  Outcome := OutCome + ExpQuery.FieldByName('FixFee').AsInteger;
+  Outcome := OutCome + ExpQuery.FieldByName('Incidental').AsInteger;
+  Outcome := OutCome + ExpQuery.FieldByName('Cellphone').AsInteger;
+  Outcome := OutCome + ExpQuery.FieldByName('Insurance').AsInteger;
+  Outcome := OutCome + ExpQuery.FieldByName('Reserve').AsInteger;
+  Outcome := OutCome + ExpQuery.FieldByName('Reserve1').AsInteger;
+  Outcome := OutCome + ExpQuery.FieldByName('Reserve2').AsInteger;
+  Outcome := OutCome + ExpQuery.FieldByName('Reserve3').AsInteger;
+  RvProject1.SetParam('OutcomeTotal',IntToStr(Outcome));
+
+  Income := DM.Query.FieldByName('SumTurnover').AsInteger;
+  Income := Income + ExpQuery.FieldByName('Reserve4').AsInteger;
+  RvProject1.SetParam('IncomeTotal',IntToStr(Income));
+  RvProject1.SetParam('Net',IntToStr(Income-Outcome));
+
+  RvProject1.Execute;
+end;
+
+
+
+procedure TMonthRepForm.PayRepBtnClick(Sender: TObject);
+begin
+  RvProject2.ProjectFile := DM.AppPath + 'Pay.rav';
+  RvProject2.SetParam('Month', MonthQuery.Parameters.ParamValues['Months']);
+  RvProject2.SetParam('Title', '客戶名稱：' + BusLookup.Text);
+  RvProject2.Execute;
+end;
+
+
+
+end.

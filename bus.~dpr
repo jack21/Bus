@@ -1,0 +1,38 @@
+program Bus;
+
+
+
+uses
+  Forms,
+  frmMain in 'frmMain.pas' {MainForm},
+  frmDay in 'frmDay.pas' {DayForm},
+  frmDM in 'frmDM.pas' {DM: TDataModule},
+  frmMonthRep in 'frmMonthRep.pas' {MonthRepForm},
+  frmExp in 'frmExp.pas' {ExpForm},
+  frmFix in 'frmFix.pas' {FixForm},
+  md5 in 'md5.pas',
+  frmPassword in 'frmPassword.pas' {PasswordForm},
+  frmDispatch in 'frmDispatch.pas' {DispatchForm},
+  frmDispatchMaintain in 'frmDispatchMaintain.pas' {DispatchMaintainForm},
+  frmInsertDay in 'frmInsertDay.pas' {InsertDayForm},
+  frmEditDay in 'frmEditDay.pas' {EditDayForm},
+  frmCustomerMonthRep in 'frmCustomerMonthRep.pas' {CustomerMonthRepForm},
+  frmLogin in 'frmLogin.pas' {LoginForm},
+  frmBusMaintain in 'frmBusMaintain.pas' {BusMaintainForm},
+  frmSalaryRep in 'frmSalaryRep.pas' {SalaryRepForm},
+  objSalaryMISC in 'objSalaryMISC.pas',
+  frmCustomListRep in 'frmCustomListRep.pas' {CustomListRepForm},
+  objTravel in 'objTravel.pas',
+  frmImport in 'frmImport.pas' {ImportForm},
+  frmSuperPassword in 'frmSuperPassword.pas' {SuperPasswordForm},
+  frmDayPassword in 'frmDayPassword.pas' {DayPasswordForm};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.Title := '綠野觀光股份有限公司';
+  Application.CreateForm(TMainForm, MainForm);
+  Application.CreateForm(TDM, DM);
+  Application.Run;
+end.

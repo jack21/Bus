@@ -1,0 +1,229 @@
+unit frmDay;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, wwSpeedButton, wwDBNavigator, wwclearpanel, Grids, Wwdbigrd,
+  Wwdbgrid, ExtCtrls, DB, ADODB, ComCtrls, StdCtrls, wwdblook, Mask,
+  DBCtrls, Buttons, DateUtils, DBGrids, iniFiles;
+
+type
+  TDayForm = class(TForm)
+    Panel1: TPanel;
+    DayQuery: TADOQuery;
+    Panel3: TPanel;
+    DateTimePicker: TDateTimePicker;
+    DayDS: TDataSource;
+    DayQueryBusNumber: TWideStringField;
+    DayQueryTravelDate: TDateTimeField;
+    DayQueryCustom: TWideStringField;
+    DayQueryTravel: TWideStringField;
+    DayQueryTurnover: TIntegerField;
+    DayQueryTravelExp: TSmallintField;
+    DayQueryOilExp: TSmallintField;
+    DayQueryTips: TIntegerField;
+    DayQueryNo: TAutoIncField;
+    DayQueryNote: TWideStringField;
+    InsertBtn: TBitBtn;
+    DelBtn: TBitBtn;
+    EditBtn: TBitBtn;
+    DayQueryTips2: TIntegerField;
+    DayQueryFirstIncome: TIntegerField;
+    DayQueryFirstIncomeDate: TDateTimeField;
+    DayQuerySecondIncome: TIntegerField;
+    DayQuerySecondIncomeDate: TDateTimeField;
+    DayQueryTurnover2: TIntegerField;
+    DayQueryNote2: TWideStringField;
+    DayQueryStartTime: TWideStringField;
+    DayQueryEndTime: TWideStringField;
+    wwDBGrid1: TwwDBGrid;
+    DayQueryGroups: TWideStringField;
+    PreDayBtn: TSpeedButton;
+    YesterdayBtn: TSpeedButton;
+    TodayBtn: TSpeedButton;
+    TomorrowBtn: TSpeedButton;
+    NextDayBtn: TSpeedButton;
+    procedure FormShow(Sender: TObject);
+    procedure OKBtnClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure DateTimePickerChange(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure InsertBtnClick(Sender: TObject);
+    procedure EditBtnClick(Sender: TObject);
+    procedure DelBtnClick(Sender: TObject);
+    procedure DayGridDblClick(Sender: TObject);
+    procedure PreDayBtnClick(Sender: TObject);
+    procedure YesterdayBtnClick(Sender: TObject);
+    procedure TodayBtnClick(Sender: TObject);
+    procedure TomorrowBtnClick(Sender: TObject);
+    procedure NextDayBtnClick(Sender: TObject);
+  private
+    { Private declarations }
+    procedure SetQueryDate(TravelDate: TDate);
+  public
+    { Public declarations }
+  end;
+
+var
+  DayForm: TDayForm;
+
+implementation
+
+uses frmdm, frmInsertDay, frmEditDay;
+
+{$R *.dfm}
+
+procedure TDayForm.FormShow(Sender: TObject);
+begin
+  SetQueryDate(Now);
+  //if DayQuery.IsEmpty then
+  //  NewTravel;
+  DateTimePicker.Date := Now;
+  Width := 794;
+
+  // 判斷是否可修改
+  if DM.EditEnable or DM.DayEditEnable then
+  begin
+    wwDBGrid1.Options := wwDBGrid1.Options + [Wwdbigrd.dgEditing] - [Wwdbigrd.dgRowSelect];
+    InsertBtn.Enabled := true;
+    DelBtn.Enabled := true;
+    EditBtn.Enabled := true;
+  end;
+end;
+
+procedure TDayForm.OKBtnClick(Sender: TObject);
+Var
+  Msg: String;
+begin
+  if DayQuery.State in [dsEdit, dsInsert] then
+  begin
+    DayQuery.Post;
+    Msg := '車號: ' + DayQueryBusNumber.Text + #13;
+    Msg := Msg + '客戶: ' + DayQueryCustom.Text + #13;
+    Msg := Msg + '行程: ' + DayQueryTravel.Text + #13#13;
+    Msg := Msg + '修改成功！';
+    MessageDlg(Msg, mtInformation, [mbOK], 0);
+  end
+  else
+    abort();
+end;
+
+procedure TDayForm.FormClose(Sender: TObject; var Action: TCloseAction);
+var
+  iniFile: TIniFile;
+begin
+  iniFile := TIniFile.Create(DM.AppPath + 'Config.ini');
+  iniFile.WriteInteger('DayForm', 'FormTop', DayForm.Top);
+  iniFile.WriteInteger('DayForm', 'FormLeft', DayForm.Left);
+  iniFile.Free;
+
+  DayQuery.Cancel;
+  DayQuery.Close;
+  DayForm := nil;
+  Action := caFree;
+end;
+
+procedure TDayForm.DateTimePickerChange(Sender: TObject);
+begin
+  SetQueryDate(DateTimePicker.Date);
+  //if DayQuery.IsEmpty then
+  //  NewTravel;
+end;
+
+{----- 設定 DayQuery 的 Years、Months、Days -----}
+procedure TDayForm.SetQueryDate(TravelDate: TDate);
+begin
+  DayQuery.Close;
+  DayQuery.Parameters.ParamValues['Years'] := YearOf(TravelDate);
+  DayQuery.Parameters.ParamValues['Months'] := MonthOf(TravelDate);
+  DayQuery.Parameters.ParamValues['Days'] := DayOf(TravelDate);
+  DayQuery.Open;
+end;
+
+procedure TDayForm.FormCreate(Sender: TObject);
+var
+  iniFile: TIniFile;
+begin
+  iniFile := TIniFile.Create(DM.AppPath + 'Config.ini');
+  DayForm.Top := iniFile.ReadInteger('DayForm', 'FormTop', 0);
+  DayForm.Left := iniFile.ReadInteger('DayForm', 'FormLeft', 0);
+  iniFile.Free;
+end;
+
+procedure TDayForm.InsertBtnClick(Sender: TObject);
+begin
+  if not Assigned(TForm(InsertDayForm)) then
+    Application.CreateForm(TInsertDayForm, InsertDayForm);
+  
+  DayForm.DayQuery.Append;
+  DayForm.DayQuery.FieldValues['TravelDate'] := DayForm.DateTimePicker.DateTime;
+  DayForm.DayQuery.FieldValues['Turnover'] := 0;
+  DayForm.DayQuery.FieldValues['TravelExp'] := 0;
+  DayForm.DayQuery.FieldValues['OilExp'] := 0;
+  DayForm.DayQuery.FieldValues['FirstIncome'] := 0;
+  DayForm.DayQuery.FieldValues['SecondIncome'] := 0;
+  DayForm.DayQuery.FieldValues['Tips'] := 0;
+
+  InsertDayForm.ShowModal;
+end;
+
+procedure TDayForm.EditBtnClick(Sender: TObject);
+begin                    
+  if not Assigned(TForm(InsertDayForm)) then
+    Application.CreateForm(TInsertDayForm, InsertDayForm);
+           
+  InsertDayForm.ShowModal;
+  {if not Assigned(TForm(EditDayForm)) then
+    Application.CreateForm(TEditDayForm, EditDayForm);
+  EditDayForm.ShowModal;}
+end;
+
+procedure TDayForm.DelBtnClick(Sender: TObject);
+begin
+  if MessageDlg('確定要刪除嗎？', mtInformation, [mbYes,mbNo], 0) = mrYes then
+  begin
+    try
+      DayQuery.Delete;
+    except
+      MessageDlg('刪除失敗！', mtError, [mbOK], 0);
+    end;
+  end;
+end;
+
+procedure TDayForm.DayGridDblClick(Sender: TObject);
+begin
+  if not DM.EditEnable then
+    exit;
+
+  if not Assigned(TForm(EditDayForm)) then
+    Application.CreateForm(TEditDayForm, EditDayForm);
+  EditDayForm.ShowModal;
+end;
+
+procedure TDayForm.PreDayBtnClick(Sender: TObject);
+begin
+  DateTimePicker.Date := IncDay(DateTimePicker.Date, -1);
+end;
+
+procedure TDayForm.YesterdayBtnClick(Sender: TObject);
+begin
+  DateTimePicker.Date := Yesterday();
+end;
+
+procedure TDayForm.TodayBtnClick(Sender: TObject);
+begin
+  DateTimePicker.Date := Today();
+end;
+
+procedure TDayForm.TomorrowBtnClick(Sender: TObject);
+begin
+  DateTimePicker.Date := Tomorrow();
+end;
+
+procedure TDayForm.NextDayBtnClick(Sender: TObject);
+begin
+  DateTimePicker.Date := IncDay(DateTimePicker.Date, 1);
+end;
+
+end.

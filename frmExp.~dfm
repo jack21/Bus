@@ -1,0 +1,359 @@
+object ExpForm: TExpForm
+  Left = 246
+  Top = 254
+  Width = 892
+  Height = 485
+  Caption = #27599#26376#36027#29992#34920
+  Color = clBtnFace
+  Font.Charset = CHINESEBIG5_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = #26032#32048#26126#39636
+  Font.Style = []
+  FormStyle = fsMDIChild
+  OldCreateOrder = False
+  Position = poDefault
+  Visible = True
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnShow = FormShow
+  PixelsPerInch = 96
+  TextHeight = 12
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 884
+    Height = 57
+    Align = alTop
+    BevelInner = bvRaised
+    BevelOuter = bvLowered
+    TabOrder = 0
+    object Label2: TLabel
+      Left = 16
+      Top = 24
+      Width = 36
+      Height = 12
+      Caption = #26178#38291#65306
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label3: TLabel
+      Left = 120
+      Top = 24
+      Width = 12
+      Height = 12
+      Caption = #24180
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      ParentFont = False
+    end
+    object Label4: TLabel
+      Left = 208
+      Top = 24
+      Width = 12
+      Height = 12
+      Caption = #26376
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      ParentFont = False
+    end
+    object YearEdit: TEdit
+      Left = 56
+      Top = 20
+      Width = 57
+      Height = 18
+      Ctl3D = False
+      ParentCtl3D = False
+      TabOrder = 0
+    end
+    object MonthBox: TComboBox
+      Left = 136
+      Top = 20
+      Width = 65
+      Height = 20
+      Style = csDropDownList
+      Ctl3D = True
+      ItemHeight = 12
+      ParentCtl3D = False
+      TabOrder = 1
+      Items.Strings = (
+        '1'
+        '2'
+        '3'
+        '4'
+        '5'
+        '6'
+        '7'
+        '8'
+        '9'
+        '10'
+        '11'
+        '12')
+    end
+    object OKBtn: TBitBtn
+      Left = 248
+      Top = 18
+      Width = 75
+      Height = 25
+      Caption = #30906#23450
+      Default = True
+      TabOrder = 2
+      OnClick = OKBtnClick
+    end
+  end
+  object Panel3: TPanel
+    Left = 0
+    Top = 384
+    Width = 884
+    Height = 67
+    Align = alBottom
+    BevelInner = bvRaised
+    BevelOuter = bvLowered
+    Enabled = False
+    TabOrder = 1
+    object Label10: TLabel
+      Left = 8
+      Top = 8
+      Width = 36
+      Height = 12
+      Caption = #20633#35387#65306
+      Font.Charset = CHINESEBIG5_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = #26032#32048#26126#39636
+      Font.Style = []
+      ParentFont = False
+    end
+    object SaveBtn: TBitBtn
+      Left = 768
+      Top = 8
+      Width = 99
+      Height = 25
+      Caption = #20786#23384'(&S)'
+      TabOrder = 0
+      OnClick = SaveBtnClick
+    end
+    object DBMemo1: TDBMemo
+      Left = 48
+      Top = 8
+      Width = 705
+      Height = 49
+      Ctl3D = False
+      DataField = 'Note'
+      DataSource = ExpDS
+      ParentCtl3D = False
+      TabOrder = 1
+    end
+  end
+  object DBGrid: TwwDBGrid
+    Left = 0
+    Top = 57
+    Width = 884
+    Height = 327
+    DittoAttributes.ShortCutDittoField = 0
+    DittoAttributes.ShortCutDittoRecord = 0
+    DittoAttributes.Options = []
+    DisableThemesInTitle = False
+    Selected.Strings = (
+      'BusNumber'#9'8'#9#36554#34399#9'F'#9
+      'MemberFee'#9'6'#9#34892#36027#9#9
+      'Tax'#9'6'#9#31237#37329#9#9
+      'DriverSalary'#9'8'#9#21496#27231#34218#36039#9#9
+      'ServiceSalary'#9'8'#9#26381#21209#21729#34218#36039#9#9
+      'UnionFee'#9'8'#9#20844#26371#26371#36027#9#9
+      'LicenceTax'#9'8'#9#29123#26009#21450#29260#29031#31237#9#9
+      'ParkFee'#9'8'#9#36942#36335#21450#20572#36554#36027#9#9
+      'FixFee'#9'6'#9#20462#29702#36027#9#9
+      'Incidental'#9'6'#9#38620#36027#9#9
+      'Cellphone'#9'8'#9#34892#21205#38651#35441#9#9
+      'Insurance'#9'6'#9#21214#20581#20445#9#9
+      'Reserve'#9'8'#9#31449#36027#27927#36554#9#9
+      'Reserve1'#9'6'#9#20445#30041#19968#9#9
+      'Reserve2'#9'6'#9#20445#30041#20108#9#9
+      'Reserve3'#9'6'#9#20445#30041#19977#9#9
+      'Reserve4'#9'6'#9#20445#30041#22235#9#9)
+    IniAttributes.Delimiter = ';;'
+    TitleColor = clBtnFace
+    FixedCols = 1
+    ShowHorzScrollBar = True
+    Align = alClient
+    Ctl3D = False
+    DataSource = ExpDS
+    Font.Charset = CHINESEBIG5_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -12
+    Font.Name = #26032#32048#26126#39636
+    Font.Style = []
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgWordWrap]
+    ParentCtl3D = False
+    ParentFont = False
+    TabOrder = 2
+    TitleAlignment = taCenter
+    TitleFont.Charset = CHINESEBIG5_CHARSET
+    TitleFont.Color = clBlue
+    TitleFont.Height = -12
+    TitleFont.Name = #26032#32048#26126#39636
+    TitleFont.Style = []
+    TitleLines = 1
+    TitleButtons = False
+  end
+  object ExpQuery: TADOQuery
+    CacheSize = 1000
+    Connection = DM.DBConn
+    CursorType = ctStatic
+    LockType = ltBatchOptimistic
+    Parameters = <
+      item
+        Name = 'myYear'
+        Attributes = [paNullable]
+        DataType = ftWideString
+        NumericScale = 255
+        Precision = 255
+        Size = 510
+        Value = '2004'
+      end
+      item
+        Name = 'myMonth'
+        Attributes = [paNullable]
+        DataType = ftWideString
+        NumericScale = 255
+        Precision = 255
+        Size = 510
+        Value = '1'
+      end>
+    SQL.Strings = (
+      'SELECT *'
+      'FROM Exp'
+      
+        'WHERE Years=:myYear AND Months=:myMonth and BusNumber in (Select' +
+        ' BusNumber From Bus)'
+      'Order By BusNumber'
+      ' '
+      ' ')
+    Left = 400
+    Top = 8
+    object ExpQueryBusNumber: TWideStringField
+      DisplayLabel = #36554#34399
+      DisplayWidth = 8
+      FieldName = 'BusNumber'
+      Size = 8
+    end
+    object ExpQueryMemberFee: TIntegerField
+      DisplayLabel = #34892#36027
+      DisplayWidth = 6
+      FieldName = 'MemberFee'
+    end
+    object ExpQueryTax: TIntegerField
+      DisplayLabel = #31237#37329
+      DisplayWidth = 6
+      FieldName = 'Tax'
+    end
+    object ExpQueryDriverSalary: TIntegerField
+      DisplayLabel = #21496#27231#34218#36039
+      DisplayWidth = 8
+      FieldName = 'DriverSalary'
+    end
+    object ExpQueryServiceSalary: TIntegerField
+      DisplayLabel = #26381#21209#21729#34218#36039
+      DisplayWidth = 8
+      FieldName = 'ServiceSalary'
+    end
+    object ExpQueryUnionFee: TIntegerField
+      DisplayLabel = #20844#26371#26371#36027
+      DisplayWidth = 8
+      FieldName = 'UnionFee'
+    end
+    object ExpQueryLicenceTax: TIntegerField
+      DisplayLabel = #29123#26009#21450#29260#29031#31237
+      DisplayWidth = 8
+      FieldName = 'LicenceTax'
+    end
+    object ExpQueryParkFee: TIntegerField
+      DisplayLabel = #36942#36335#21450#20572#36554#36027
+      DisplayWidth = 8
+      FieldName = 'ParkFee'
+    end
+    object ExpQueryFixFee: TIntegerField
+      DisplayLabel = #20462#29702#36027
+      DisplayWidth = 6
+      FieldName = 'FixFee'
+    end
+    object ExpQueryIncidental: TIntegerField
+      DisplayLabel = #38620#36027
+      DisplayWidth = 6
+      FieldName = 'Incidental'
+    end
+    object ExpQueryCellphone: TIntegerField
+      DisplayLabel = #34892#21205#38651#35441
+      DisplayWidth = 8
+      FieldName = 'Cellphone'
+    end
+    object ExpQueryInsurance: TIntegerField
+      DisplayLabel = #21214#20581#20445
+      DisplayWidth = 6
+      FieldName = 'Insurance'
+    end
+    object ExpQueryReserve: TIntegerField
+      DisplayLabel = #31449#36027#27927#36554
+      DisplayWidth = 8
+      FieldName = 'Reserve'
+    end
+    object ExpQueryReserve1: TIntegerField
+      DisplayLabel = #20445#30041#19968
+      DisplayWidth = 6
+      FieldName = 'Reserve1'
+    end
+    object ExpQueryReserve2: TIntegerField
+      DisplayLabel = #20445#30041#20108
+      DisplayWidth = 6
+      FieldName = 'Reserve2'
+    end
+    object ExpQueryReserve3: TIntegerField
+      DisplayLabel = #20445#30041#19977
+      DisplayWidth = 6
+      FieldName = 'Reserve3'
+    end
+    object ExpQueryReserve4: TIntegerField
+      DisplayLabel = #20445#30041#22235
+      DisplayWidth = 6
+      FieldName = 'Reserve4'
+    end
+    object ExpQueryNo: TAutoIncField
+      DisplayWidth = 10
+      FieldName = 'No'
+      ReadOnly = True
+      Visible = False
+    end
+    object ExpQueryYears: TIntegerField
+      DisplayWidth = 10
+      FieldName = 'Years'
+      Visible = False
+    end
+    object ExpQueryMonths: TIntegerField
+      DisplayWidth = 10
+      FieldName = 'Months'
+      Visible = False
+    end
+    object ExpQueryNote: TMemoField
+      DisplayWidth = 10
+      FieldName = 'Note'
+      Visible = False
+      BlobType = ftMemo
+    end
+  end
+  object ExpDS: TDataSource
+    DataSet = ExpQuery
+    Left = 448
+    Top = 8
+  end
+end
