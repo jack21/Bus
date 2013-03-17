@@ -207,6 +207,7 @@ object InsertDayForm: TInsertDayForm
       ShowButton = True
       PreciseEditRegion = False
       AllowClearKey = False
+      ShowMatchText = True
       OnKeyDown = CustomLookupKeyDown
     end
     object TravelLookup: TwwDBLookupCombo
@@ -402,7 +403,7 @@ object InsertDayForm: TInsertDayForm
       LabelFont.Style = []
       ModifiedColor = clRed
       SelectFirstChar = False
-      Version = '2.8.1.16'
+      Version = '2.9.4.2'
       DataField = 'StartTime'
       DataSource = DayForm.DayDS
     end
@@ -440,7 +441,7 @@ object InsertDayForm: TInsertDayForm
       LabelFont.Style = []
       ModifiedColor = clRed
       SelectFirstChar = False
-      Version = '2.8.1.16'
+      Version = '2.9.4.2'
       DataField = 'EndTime'
       DataSource = DayForm.DayDS
     end
@@ -502,7 +503,6 @@ object InsertDayForm: TInsertDayForm
   end
   object CustomDataSet: TSimpleDataSet
     Aggregates = <>
-    Connection = DM.SQLConn
     DataSet.CommandText = 'Select Distinct Custom'#13#10'From Travel'#13#10'Where Custom <> '#39#39
     DataSet.MaxBlobSize = -1
     DataSet.Params = <>
@@ -522,7 +522,6 @@ object InsertDayForm: TInsertDayForm
   end
   object TravelDataSet: TSimpleDataSet
     Aggregates = <>
-    Connection = DM.SQLConn
     DataSet.CommandText = 
       'Select Distinct Travel'#13#10'From Travel'#13#10'Where TravelDate > :TravelD' +
       'ate AND Travel <> '#39#39
